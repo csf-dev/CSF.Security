@@ -38,17 +38,5 @@ namespace CSF.Security
     /// <param name="enteredCredentials">Entered credentials.</param>
     AuthenticationResult Authenticate(object enteredCredentials);
   }
-
-  /// <summary>
-  /// Authentication service, gets an authentication result on the basis of some provided credentials.
-  /// </summary>
-  public interface IAuthenticationService<TEnteredCredentials>
-  {
-    /// <summary>
-    /// Attempts authentication using the given credentials.
-    /// </summary>
-    /// <param name="enteredCredentials">Entered credentials.</param>
-    AuthenticationResult Authenticate(TEnteredCredentials enteredCredentials);
-  }
 }
 
