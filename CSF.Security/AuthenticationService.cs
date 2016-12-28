@@ -34,7 +34,16 @@ namespace CSF.Security
   {
     #region fields
 
+    /// <summary>
+    /// Gets the credentials repository.
+    /// </summary>
+    /// <value>The credentials repository.</value>
     protected ICredentialsRepository CredentialsRepository { get; private set; }
+
+    /// <summary>
+    /// Gets the credentials verifier.
+    /// </summary>
+    /// <value>The credentials verifier.</value>
     protected ICredentialVerifier CredentialsVerifier { get; private set; }
 
     #endregion
