@@ -43,12 +43,12 @@
     <Compile Include="AuthenticationResult.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="ICredentialsWithPassword.cs" />
-    <Compile Include="AuthenticationService.cs" />
     <Compile Include="PBKDF2CredentialVerifier.cs" />
     <Compile Include="IStoredCredentialsWithKeyAndSalt.cs" />
     <Compile Include="BinaryKeyAndSalt.cs" />
     <Compile Include="Base64KeyAndSalt.cs" />
     <Compile Include="IBinaryKeyCreator.cs" />
+    <Compile Include="AuthenticationService`2.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

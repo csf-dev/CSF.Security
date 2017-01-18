@@ -30,7 +30,8 @@ namespace CSF.Security
   /// <summary>
   /// Abstract base type for an authentication service.
   /// </summary>
-  public class AuthenticationService : IAuthenticationService
+  public class AuthenticationService<TEnteredCredentials,TStoredCredentials>
+    : IAuthenticationService<TEnteredCredentials>
   {
     #region fields
 
@@ -38,13 +39,13 @@ namespace CSF.Security
     /// Gets the credentials repository.
     /// </summary>
     /// <value>The credentials repository.</value>
-    protected ICredentialsRepository CredentialsRepository { get; private set; }
+    protected ICredentialsRepository<TEnteredCredentials,TStoredCredentials> CredentialsRepository { get; private set; }
 
     /// <summary>
     /// Gets the credentials verifier.
     /// </summary>
     /// <value>The credentials verifier.</value>
-    protected ICredentialVerifier CredentialsVerifier { get; private set; }
+    protected ICredentialVerifier<TEnteredCredentials,TStoredCredentials> CredentialsVerifier { get; private set; }
 
     #endregion
 
@@ -54,7 +55,7 @@ namespace CSF.Security
     /// Attempts authentication using the given credentials.
     /// </summary>
     /// <param name="enteredCredentials">Entered credentials.</param>
-    public virtual AuthenticationResult Authenticate(object enteredCredentials)
+    public virtual AuthenticationResult Authenticate(TEnteredCredentials enteredCredentials)
     {
       if(enteredCredentials == null)
       {
@@ -72,17 +73,23 @@ namespace CSF.Security
       return new AuthenticationResult(true, verified);
     }
 
+    AuthenticationResult IAuthenticationService.Authenticate(object enteredCredentials)
+    {
+      return Authenticate((TEnteredCredentials) enteredCredentials);
+    }
+
     #endregion
 
     #region constructor
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CSF.Security.AuthenticationService"/> class.
+    /// Initializes a new instance of the
+    /// <see cref="T:CSF.Security.AuthenticationService{TEnteredCredentials,TStoredCredentials}"/> class.
     /// </summary>
     /// <param name="repository">Credentials repository.</param>
     /// <param name="verifier">Credentials verifier.</param>
-    public AuthenticationService(ICredentialsRepository repository,
-                                 ICredentialVerifier verifier)
+    public AuthenticationService(ICredentialsRepository<TEnteredCredentials,TStoredCredentials> repository,
+                                 ICredentialVerifier<TEnteredCredentials,TStoredCredentials> verifier)
     {
       if(repository == null)
       {

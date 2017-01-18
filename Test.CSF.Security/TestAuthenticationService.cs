@@ -38,7 +38,7 @@ namespace Test.CSF.Security
     private Mock<ICredentialsRepository<StubEnteredCredentials,StubStoredCredentials>> _repository;
     private Mock<ICredentialVerifier<StubEnteredCredentials,StubStoredCredentials>> _verifier;
 
-    private IAuthenticationService _sut;
+    private IAuthenticationService<StubEnteredCredentials> _sut;
 
     #endregion
 
@@ -50,18 +50,8 @@ namespace Test.CSF.Security
       _repository = new Mock<ICredentialsRepository<StubEnteredCredentials, StubStoredCredentials>>();
       _verifier = new Mock<ICredentialVerifier<StubEnteredCredentials, StubStoredCredentials>>();
 
-      _repository
-        .As<ICredentialsRepository>()
-        .Setup(x => x.GetStoredCredentials(It.IsAny<object>()))
-        .Returns((object credentials) => _repository.Object.GetStoredCredentials((StubEnteredCredentials) credentials));
-
-      _verifier
-        .As<ICredentialVerifier>()
-        .Setup(x => x.Verify(It.IsAny<object>(), It.IsAny<object>()))
-        .Returns((object entered, object stored) => _verifier.Object.Verify((StubEnteredCredentials) entered,
-                                                                            (StubStoredCredentials) stored));
-
-      _sut = new AuthenticationService(_repository.Object, _verifier.Object);
+      _sut = new AuthenticationService<StubEnteredCredentials, StubStoredCredentials>(_repository.Object,
+                                                                                      _verifier.Object);
     }
 
     #endregion
