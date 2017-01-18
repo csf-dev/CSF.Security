@@ -51,4 +51,7 @@
     <Compile Include="AuthenticationService`2.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="CSF.Security.nuspec" />
+  </ItemGroup>
 </Project>
