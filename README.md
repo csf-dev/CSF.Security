@@ -1,10 +1,13 @@
 # CSF.Security
 This library provides types related to authentication, authorisation and application security.
-Presently, the only functionality on offer is `IAuthenticationService` and its default implementation.
+Presently, the only functionality on offer is `IAuthenticationService<T>` and its default generic implementation.
 
 The only implementation of `ICredentialVerifier` provided uses the PBKDF2 algorithm, which is designed for password hashing.
 Behind the scenes, this uses the .NET framework built-in [Rfc2898DeriveBytes] type.
-It is left to consumers of this API to create a suitable repository implementation, to get the stored credentials.
+Consumers should:
+
+* Write their own credentials implementations, representing entered and stored versions.
+* Write their own repository implementation, to get stored credentials.
 
 [Rfc2898DeriveBytes]: https://msdn.microsoft.com/en-gb/library/system.security.cryptography.rfc2898derivebytes(v=vs.110).aspx
 
