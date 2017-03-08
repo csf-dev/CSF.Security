@@ -35,17 +35,26 @@ namespace CSF.Security
   {
     #region fields
 
+    readonly ICredentialsRepository<TEnteredCredentials,TStoredCredentials> credentialsRepository;
+    readonly Func<TEnteredCredentials,TStoredCredentials,ICredentialVerifier<TEnteredCredentials,TStoredCredentials>> verifierFactory;
+
+    #endregion
+
+    #region fields
+
     /// <summary>
     /// Gets the credentials repository.
     /// </summary>
     /// <value>The credentials repository.</value>
-    protected ICredentialsRepository<TEnteredCredentials,TStoredCredentials> CredentialsRepository { get; private set; }
+    protected ICredentialsRepository<TEnteredCredentials,TStoredCredentials> CredentialsRepository
+      => credentialsRepository;
 
     /// <summary>
     /// Gets the credentials verifier.
     /// </summary>
     /// <value>The credentials verifier.</value>
-    protected ICredentialVerifier<TEnteredCredentials,TStoredCredentials> CredentialsVerifier { get; private set; }
+    protected Func<TEnteredCredentials,TStoredCredentials,ICredentialVerifier<TEnteredCredentials,TStoredCredentials>> VerifierFactory
+      => verifierFactory;
 
     #endregion
 
@@ -57,18 +66,19 @@ namespace CSF.Security
     /// <param name="enteredCredentials">Entered credentials.</param>
     public virtual AuthenticationResult Authenticate(TEnteredCredentials enteredCredentials)
     {
-      if(enteredCredentials == null)
+      if(ReferenceEquals(enteredCredentials, null))
       {
         throw new ArgumentNullException(nameof(enteredCredentials));
       }
 
       var storedCredentials = CredentialsRepository.GetStoredCredentials(enteredCredentials);
-      if(storedCredentials == null)
+      if(ReferenceEquals(storedCredentials, null))
       {
         return new AuthenticationResult(false, false);
       }
 
-      var verified = CredentialsVerifier.Verify(enteredCredentials, storedCredentials);
+      var verifier = GetVerifier(enteredCredentials, storedCredentials);
+      var verified = verifier.Verify(enteredCredentials, storedCredentials);
 
       return new AuthenticationResult(true, verified);
     }
@@ -78,13 +88,47 @@ namespace CSF.Security
       return Authenticate((TEnteredCredentials) enteredCredentials);
     }
 
+    /// <summary>
+    /// Gets the credentials verifier from the entered and stored credentials.
+    /// </summary>
+    /// <returns>The verifier.</returns>
+    /// <param name="enteredCredentials">Entered credentials.</param>
+    /// <param name="storedCredentials">Stored credentials.</param>
+    protected virtual ICredentialVerifier<TEnteredCredentials,TStoredCredentials> GetVerifier(TEnteredCredentials enteredCredentials,
+                                                                                              TStoredCredentials storedCredentials)
+    {
+      return VerifierFactory(enteredCredentials, storedCredentials);
+    }
+
     #endregion
 
     #region constructor
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:CSF.Security.AuthenticationService{TEnteredCredentials,TStoredCredentials}"/> class.
+    /// <see cref="T:AuthenticationService{TEnteredCredentials,TStoredCredentials}"/> class.
+    /// </summary>
+    /// <param name="repository">Credentials repository.</param>
+    /// <param name="verifierFactory">A delegate factory which creates an instance of a credentials verifier.</param>
+    public AuthenticationService(ICredentialsRepository<TEnteredCredentials,TStoredCredentials> repository,
+                                 Func<TEnteredCredentials,TStoredCredentials,ICredentialVerifier<TEnteredCredentials,TStoredCredentials>> verifierFactory)
+    {
+      if(repository == null)
+      {
+        throw new ArgumentNullException(nameof(repository));
+      }
+      if(verifierFactory == null)
+      {
+        throw new ArgumentNullException(nameof(verifierFactory));
+      }
+
+      this.credentialsRepository = repository;
+      this.verifierFactory = verifierFactory;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:AuthenticationService{TEnteredCredentials,TStoredCredentials}"/> class.
     /// </summary>
     /// <param name="repository">Credentials repository.</param>
     /// <param name="verifier">Credentials verifier.</param>
@@ -100,8 +144,8 @@ namespace CSF.Security
         throw new ArgumentNullException(nameof(verifier));
       }
 
-      CredentialsRepository = repository;
-      CredentialsVerifier = verifier;
+      this.credentialsRepository = repository;
+      this.verifierFactory = (TEnteredCredentials entered, TStoredCredentials stored) => verifier;
     }
 
     #endregion

@@ -138,6 +138,33 @@ namespace Test.CSF.Security
       Assert.IsTrue(result.CredentialsVerified);
     }
 
+    [Test]
+    public void Authenticate_uses_verifier_creation_delegate_when_provided()
+    {
+      // Arrange
+      var entered = Mock.Of<StubEnteredCredentials>();
+      var stored = Mock.Of<StubStoredCredentials>();
+
+      _repository.Setup(x => x.GetStoredCredentials(entered)).Returns(stored);
+      _verifier.Setup(x => x.Verify(entered, stored)).Returns(true);
+
+      var delegateUsed = false;
+
+      Func<StubEnteredCredentials,StubStoredCredentials,ICredentialVerifier<StubEnteredCredentials, StubStoredCredentials>> creator;
+
+      creator = (StubEnteredCredentials ent, StubStoredCredentials sto) => {
+        delegateUsed = true;
+        return _verifier.Object;
+      };
+      _sut = new AuthenticationService<StubEnteredCredentials, StubStoredCredentials>(_repository.Object, creator);
+
+      // Act
+      _sut.Authenticate(entered);
+
+      // Assert
+      Assert.IsTrue(delegateUsed);
+    }
+
     #endregion
 
     #region contained types
