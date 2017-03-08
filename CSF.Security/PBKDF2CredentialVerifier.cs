@@ -30,16 +30,16 @@ using System.Linq;
 namespace CSF.Security
 {
   /// <summary>
-  /// Abstract base type for an <see cref="ICredentialVerifier"/> which uses the PBKDF2 mechanism.
+  /// Implementation of an <see cref="ICredentialVerifier"/> which uses the PBKDF2 mechanism.
   /// </summary>
-  public class PBKDF2CredentialVerifier<TEnteredCredentials,TStoredCredentials>
-    : ICredentialVerifier<TEnteredCredentials,TStoredCredentials>, ICredentialVerifier, IBinaryKeyCreator
-    where TEnteredCredentials : ICredentialsWithPassword
-    where TStoredCredentials : IStoredCredentialsWithKeyAndSalt
+  public class PBKDF2CredentialVerifier : ICredentialVerifier<ICredentialsWithPassword,IStoredCredentialsWithKeyAndSalt>,
+                                          ICredentialVerifier,
+                                          IBinaryKeyCreator
   {
     #region constants
 
-    private static RNGCryptoServiceProvider _randomNumberGenerator;
+    static readonly RNGCryptoServiceProvider _randomNumberGenerator;
+    internal const int DefaultIterationCount = 256000;
 
     #endregion
 
@@ -82,7 +82,8 @@ namespace CSF.Security
     /// </summary>
     /// <param name="enteredCredentials">Entered credentials.</param>
     /// <param name="storedCredentials">Stored credentials.</param>
-    public virtual bool Verify(TEnteredCredentials enteredCredentials, TStoredCredentials storedCredentials)
+    public virtual bool Verify(ICredentialsWithPassword enteredCredentials,
+                               IStoredCredentialsWithKeyAndSalt storedCredentials)
     {
       if(enteredCredentials == null)
       {
@@ -163,7 +164,7 @@ namespace CSF.Security
 
     bool ICredentialVerifier.Verify(object enteredCredentials, object storedCredentials)
     {
-      return Verify((TEnteredCredentials) enteredCredentials, (TStoredCredentials) storedCredentials);
+      return Verify((ICredentialsWithPassword) enteredCredentials, (IStoredCredentialsWithKeyAndSalt) storedCredentials);
     }
 
     #endregion
@@ -171,7 +172,7 @@ namespace CSF.Security
     #region constructors
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:CSF.Security.PBKDF2CredentialVerifier`2"/> class.
+    /// Initializes a new instance of the <see cref="PBKDF2CredentialVerifier"/> class.
     /// </summary>
     /// <remarks>
     /// <para>
@@ -191,7 +192,7 @@ namespace CSF.Security
     /// </para>
     /// </remarks>
     /// <param name="iterationCount">Iteration count.</param>
-    public PBKDF2CredentialVerifier(int iterationCount = 256000)
+    public PBKDF2CredentialVerifier(int iterationCount = DefaultIterationCount)
     {
       if(iterationCount < 1)
       {
@@ -202,7 +203,31 @@ namespace CSF.Security
     }
 
     /// <summary>
-    /// Initializes the <see cref="T:CSF.Security.PBKDF2CredentialVerifier`2"/> class.
+    /// Initializes a new instance of the <see cref="PBKDF2CredentialVerifier"/> class.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This overload of the constructor initialises the instance from the entered and stored credentials.
+    /// </para>
+    /// </remarks>
+    /// <param name="enteredCredentials">Entered credentials.</param>
+    /// <param name="storedCredentials">Stored credentials.</param>
+    public PBKDF2CredentialVerifier(ICredentialsWithPassword enteredCredentials,
+                                    IStoredCredentialsWithKeyAndSalt storedCredentials)
+    {
+      var storedCredsWithIterationCount = storedCredentials as IPBKDF2Credentials;
+      if(storedCredsWithIterationCount != null)
+      {
+        _iterationCount = storedCredsWithIterationCount.IterationCount;
+      }
+      else
+      {
+        _iterationCount = DefaultIterationCount;
+      }
+    }
+
+    /// <summary>
+    /// Initializes the <see cref="PBKDF2CredentialVerifier"/> class.
     /// </summary>
     static PBKDF2CredentialVerifier()
     {
