@@ -53,6 +53,10 @@
     <Compile Include="ICredentialVerifier`1.cs" />
     <Compile Include="ICredentialsRepository`1.cs" />
     <Compile Include="IAuthenticationService`1.cs" />
+    <Compile Include="ICredentialsFactory.cs" />
+    <Compile Include="ICredentialsFactory`2.cs" />
+    <Compile Include="IPBKDF2CredentialsInfo.cs" />
+    <Compile Include="PBKDF2CredentialsFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
