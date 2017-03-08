@@ -225,7 +225,7 @@ namespace Test.CSF.Security
       }
     }
 
-    public class StubVerifier : PBKDF2CredentialVerifier<StubEnteredCredentials,StubStoredCredentials>
+    public class StubVerifier : PBKDF2CredentialVerifier
     {
       public StubVerifier(int iterationCount) : base(iterationCount) {}
     }
