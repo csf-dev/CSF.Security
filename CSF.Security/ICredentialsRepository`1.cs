@@ -1,10 +1,10 @@
 ﻿//
-// ICredentialVerifier.cs
+// ICredentialsRepository1.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2017 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,21 +24,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-
 namespace CSF.Security
 {
   /// <summary>
-  /// Credentials verifier interface.  Verifies that a set of entered credentials (such as those provided by a user)
-  /// matches a set of stored credentials (such as those retrieved from a database).
+  /// Credentials repository interface - a service to get the stored credentials information (such as from a database)
+  /// based upon some entered credentials (such as a username entered into an interactive login).
   /// </summary>
-  public interface ICredentialVerifier
+  public interface ICredentialsRepository<TEnteredCredentials,TStoredCredentials> : ICredentialsRepository
   {
     /// <summary>
-    /// Verifies that the entered credentials match the stored credentials.
+    /// Gets the stored credentials based upon the entered credentials.
     /// </summary>
+    /// <returns>The stored credentials.</returns>
     /// <param name="enteredCredentials">Entered credentials.</param>
-    /// <param name="storedCredentials">Stored credentials.</param>
-    bool Verify(object enteredCredentials, object storedCredentials);
+    TStoredCredentials GetStoredCredentials(TEnteredCredentials enteredCredentials);
   }
 }
-

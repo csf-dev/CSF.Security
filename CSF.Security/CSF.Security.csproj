@@ -50,6 +50,9 @@
     <Compile Include="IBinaryKeyCreator.cs" />
     <Compile Include="AuthenticationService`2.cs" />
     <Compile Include="IPBKDF2Credentials.cs" />
+    <Compile Include="ICredentialVerifier`1.cs" />
+    <Compile Include="ICredentialsRepository`1.cs" />
+    <Compile Include="IAuthenticationService`1.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -40,19 +40,5 @@ namespace CSF.Security
     /// <param name="enteredCredentials">Entered credentials.</param>
     object GetStoredCredentials(object enteredCredentials);
   }
-
-  /// <summary>
-  /// Credentials repository interface - a service to get the stored credentials information (such as from a database)
-  /// based upon some entered credentials (such as a username entered into an interactive login).
-  /// </summary>
-  public interface ICredentialsRepository<TEnteredCredentials,TStoredCredentials> : ICredentialsRepository
-  {
-    /// <summary>
-    /// Gets the stored credentials based upon the entered credentials.
-    /// </summary>
-    /// <returns>The stored credentials.</returns>
-    /// <param name="enteredCredentials">Entered credentials.</param>
-    TStoredCredentials GetStoredCredentials(TEnteredCredentials enteredCredentials);
-  }
 }
 
