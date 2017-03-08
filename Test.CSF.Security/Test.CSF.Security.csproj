@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="TestAuthenticationService.cs" />
     <Compile Include="TestPBKDF2CredentialVerifier.cs" />
+    <Compile Include="TestPBKDF2CredentialsFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

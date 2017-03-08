@@ -34,7 +34,7 @@ namespace CSF.Security
   {
     #region fields
 
-    readonly Func<int,PBKDF2CredentialVerifier> verifierFactory;
+    readonly Func<int,IBinaryKeyCreator> keyCreatorFactory;
 
     #endregion
 
@@ -52,13 +52,25 @@ namespace CSF.Security
         throw new ArgumentNullException(nameof(input));
       }
 
-      var verifier = GetVerifier(input);
-      var salt = GetSalt(input, verifier);
-      var key = GetKey(input, verifier, salt);
+      var keyCreator = GetKeyCreator(input);
+      var salt = GetSalt(input, keyCreator);
+      var key = GetKey(input, keyCreator, salt);
 
+      return CreateCredentials(input.IterationCount, salt, key);
+    }
+
+    /// <summary>
+    /// Creates a credentials instance from the given information.
+    /// </summary>
+    /// <returns>The credentials.</returns>
+    /// <param name="iterationCount">Iteration count.</param>
+    /// <param name="salt">Salt.</param>
+    /// <param name="key">Key.</param>
+    protected virtual IPBKDF2Credentials CreateCredentials(int iterationCount, byte[] salt, byte[] key)
+    {
       return new PBKDF2Credentials
       {
-        IterationCount = input.IterationCount,
+        IterationCount = iterationCount,
         SaltBytes = salt,
         KeyBytes = key,
       };
@@ -67,34 +79,34 @@ namespace CSF.Security
     /// <summary>
     /// Gets the credentials verifier.
     /// </summary>
-    /// <returns>The verifier.</returns>
+    /// <returns>A key creator service.</returns>
     /// <param name="input">Input.</param>
-    PBKDF2CredentialVerifier GetVerifier(IPBKDF2CredentialsInfo input)
+    IBinaryKeyCreator GetKeyCreator(IPBKDF2CredentialsInfo input)
     {
-      return verifierFactory(input.IterationCount);
+      return keyCreatorFactory(input.IterationCount);
     }
 
     /// <summary>
-    /// Gets the salt from the verifier using the specified salt length.
+    /// Gets the salt from the creator service using the specified salt length.
     /// </summary>
     /// <returns>The salt.</returns>
     /// <param name="input">Input.</param>
-    /// <param name="verifier">Verifier.</param>
-    byte[] GetSalt(IPBKDF2CredentialsInfo input, PBKDF2CredentialVerifier verifier)
+    /// <param name="keyCreator">Key creator service.</param>
+    byte[] GetSalt(IPBKDF2CredentialsInfo input, IBinaryKeyCreator keyCreator)
     {
-      return verifier.CreateRandomSalt(input.SaltLength);
+      return keyCreator.CreateRandomSalt(input.SaltLength);
     }
 
     /// <summary>
-    /// Gets the key from the verifier using the specified password and salt.
+    /// Gets the key from the creator service using the specified password and salt.
     /// </summary>
     /// <returns>The key.</returns>
     /// <param name="input">Input.</param>
-    /// <param name="verifier">Verifier.</param>
+    /// <param name="keyCreator">Key creator service.</param>
     /// <param name="salt">Salt.</param>
-    byte[] GetKey(IPBKDF2CredentialsInfo input, PBKDF2CredentialVerifier verifier, byte[] salt)
+    byte[] GetKey(IPBKDF2CredentialsInfo input, IBinaryKeyCreator keyCreator, byte[] salt)
     {
-      return verifier.CreateKey(input.GetPasswordAsByteArray(), salt, input.KeyLength);
+      return keyCreator.CreateKey(input.GetPasswordAsByteArray(), salt, input.KeyLength);
     }
 
     object ICredentialsFactory.GetCredentials(object input)
@@ -109,13 +121,13 @@ namespace CSF.Security
     /// <summary>
     /// Initializes a new instance of the <see cref="PBKDF2CredentialsFactory"/> class.
     /// </summary>
-    /// <param name="verifierFactory">A delegate factory which creates instances of the verifier.</param>
-    public PBKDF2CredentialsFactory(Func<int,PBKDF2CredentialVerifier> verifierFactory)
+    /// <param name="keyCreatorFactory">A delegate factory which creates instances of the key creator service.</param>
+    public PBKDF2CredentialsFactory(Func<int,IBinaryKeyCreator> keyCreatorFactory)
     {
-      if(verifierFactory == null)
-        throw new ArgumentNullException(nameof(verifierFactory));
+      if(keyCreatorFactory == null)
+        throw new ArgumentNullException(nameof(keyCreatorFactory));
 
-      this.verifierFactory = verifierFactory;
+      this.keyCreatorFactory = keyCreatorFactory;
     }
 
     #endregion
