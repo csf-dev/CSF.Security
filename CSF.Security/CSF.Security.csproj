@@ -35,6 +35,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,9 +60,12 @@
     <Compile Include="ICredentialsFactory`2.cs" />
     <Compile Include="IPBKDF2CredentialsInfo.cs" />
     <Compile Include="PBKDF2CredentialsFactory.cs" />
+    <Compile Include="ICredentialsSerializer.cs" />
+    <Compile Include="JsonCredentialsSerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="CSF.Security.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
