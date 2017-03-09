@@ -63,6 +63,8 @@
     <Compile Include="ICredentialsSerializer.cs" />
     <Compile Include="JsonCredentialsSerializer.cs" />
     <Compile Include="PBKDF2CredentialVerifier`2.cs" />
+    <Compile Include="ICredentialVerifierFactory.cs" />
+    <Compile Include="CredentialVerifierFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
