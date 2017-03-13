@@ -51,7 +51,6 @@
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.1.1308.2120\lib\net40\Moq.dll</HintPath>
-      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

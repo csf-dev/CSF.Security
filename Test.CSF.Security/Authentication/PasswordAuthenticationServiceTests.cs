@@ -124,7 +124,7 @@ namespace CSF.Security.Tests.Authentication
     {
       // Arrange
       Mock.Get(factory)
-          .Setup(x => x.GetVerifier(request.StoredCredentials.AuthenticationInfo))
+          .Setup(x => x.GetVerifier(It.IsAny<string>()))
           .Returns((IPasswordVerifier) null);
 
       request.StoredCredentials = null;
@@ -134,7 +134,7 @@ namespace CSF.Security.Tests.Authentication
 
       // Assert
       Mock.Get(factory)
-          .Verify(x => x.GetVerifier(request.StoredCredentials.AuthenticationInfo), Times.Never());
+          .Verify(x => x.GetVerifier(It.IsAny<string>()), Times.Never());
     }
 
     [Test,AutoMoqData]
