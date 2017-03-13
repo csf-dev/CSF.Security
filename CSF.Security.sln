@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.CSF.Security", "Test.CSF.Security\Test.CSF.Security.csproj", "{11DCF35A-6E2A-4C62-B536-14B83FF5AE07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSF.Security.Tests", "Test.CSF.Security\CSF.Security.Tests.csproj", "{11DCF35A-6E2A-4C62-B536-14B83FF5AE07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSF.Security", "CSF.Security\CSF.Security.csproj", "{D46ED91C-6D2F-4B18-82B3-6EB2F001C121}"
 EndProject
