@@ -59,6 +59,8 @@
     <Compile Include="Stubs\StubEnteredPassword.cs" />
     <Compile Include="Stubs\StubStoredCredentials.cs" />
     <Compile Include="Stubs\StubAuthenticationRequest.cs" />
+    <Compile Include="Authentication\JsonCredentialsSerializerTests.cs" />
+    <Compile Include="Stubs\StubCredentials.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

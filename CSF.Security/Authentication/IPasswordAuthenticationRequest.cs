@@ -32,6 +32,8 @@ namespace CSF.Security.Authentication
 
     IStoredCredentials StoredCredentials { get; set; }
 
+    object CredentialsObject { get; set; }
+
     bool PasswordVerified { get; set; }
 
     IAuthenticationResult Result { get; set; }

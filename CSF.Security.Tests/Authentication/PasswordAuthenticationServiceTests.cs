@@ -105,7 +105,7 @@ namespace CSF.Security.Tests.Authentication
     {
       // Arrange
       Mock.Get(factory)
-          .Setup(x => x.GetVerifier(request.StoredCredentials.AuthenticationInfo))
+          .Setup(x => x.GetVerifier(request.CredentialsObject))
           .Returns(verifier);
 
       // Act
@@ -114,27 +114,27 @@ namespace CSF.Security.Tests.Authentication
       // Assert
       Assert.AreSame(verifier, request.Verifier, "Verifier is set");
       Mock.Get(factory)
-          .Verify(x => x.GetVerifier(request.StoredCredentials.AuthenticationInfo), Times.Once());
+          .Verify(x => x.GetVerifier(request.CredentialsObject), Times.Once());
     }
 
     [Test,AutoMoqData]
-    public void RetrieveVerifier_does_not_use_factory_when_stored_credentials_are_empty([Frozen] IPasswordVerifierFactory factory,
-                                                                                        PasswordAuthenticationService<StubAuthenticationRequest> sut,
-                                                                                        StubAuthenticationRequest request)
+    public void RetrieveVerifier_does_not_use_factory_when_credentials_object_is_empty([Frozen] IPasswordVerifierFactory factory,
+                                                                                       PasswordAuthenticationService<StubAuthenticationRequest> sut,
+                                                                                       StubAuthenticationRequest request)
     {
       // Arrange
       Mock.Get(factory)
-          .Setup(x => x.GetVerifier(It.IsAny<string>()))
+          .Setup(x => x.GetVerifier(It.IsAny<object>()))
           .Returns((IPasswordVerifier) null);
 
-      request.StoredCredentials = null;
+      request.CredentialsObject = null;
 
       // Act
       sut.RetrieveVerifier(ref request);
 
       // Assert
       Mock.Get(factory)
-          .Verify(x => x.GetVerifier(It.IsAny<string>()), Times.Never());
+          .Verify(x => x.GetVerifier(It.IsAny<object>()), Times.Never());
     }
 
     [Test,AutoMoqData]
@@ -144,7 +144,7 @@ namespace CSF.Security.Tests.Authentication
     {
       // Arrange
       Mock.Get(factory)
-          .Setup(x => x.GetVerifier(request.StoredCredentials.AuthenticationInfo))
+          .Setup(x => x.GetVerifier(request.CredentialsObject))
           .Returns((IPasswordVerifier) null);
 
       request.Result = null;
@@ -154,7 +154,7 @@ namespace CSF.Security.Tests.Authentication
 
       // Assert
       Mock.Get(factory)
-          .Verify(x => x.GetVerifier(request.StoredCredentials.AuthenticationInfo), Times.Once());
+          .Verify(x => x.GetVerifier(request.CredentialsObject), Times.Once());
       Assert.NotNull(request.Result, "Result has been set");
       Assert.IsFalse(request.Result.Success, "Result indicates failure");
     }

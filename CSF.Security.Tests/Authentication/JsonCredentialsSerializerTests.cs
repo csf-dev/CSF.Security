@@ -25,26 +25,27 @@
 // THE SOFTWARE.
 using System;
 using CSF.Security;
+using CSF.Security.Authentication;
+using CSF.Security.Tests.Stubs;
 using NUnit.Framework;
 
-namespace Test.CSF
+namespace CSF.Security.Tests.Authentication
 {
   [TestFixture]
-  public class TestJsonCredentialsSerializer
+  public class JsonCredentialsSerializerTests
   {
     #region tests
 
-    [Test]
-    public void Serialize_creates_expected_json()
+    [Test,AutoMoqData]
+    public void Serialize_creates_expected_json(StubCredentials credentials,
+                                                JsonCredentialsSerializer sut)
     {
       // Arrange
-      var credentials = new StubCredentials {
-        InitialisationNumber = 5,
-        Key = "My key",
-        Salt = "Salty goodness",
-      };
-      var expectedJson = "Test.CSF.StubCredentials, Test.CSF:{\"Key\":\"My key\",\"Salt\":\"Salty goodness\",\"InitialisationNumber\":5}";
-      var sut = new JsonCredentialsSerializer();
+      credentials.InitialisationNumber = 5;
+      credentials.Key = "My key";
+      credentials.Salt = "Salty goodness";
+
+      var expectedJson = "CSF.Security.Tests.Stubs.StubCredentials, CSF.Security.Tests:{\"Key\":\"My key\",\"Salt\":\"Salty goodness\",\"InitialisationNumber\":5}";
 
       // Act
       var result = sut.Serialize(credentials);
@@ -53,17 +54,16 @@ namespace Test.CSF
       Assert.AreEqual(expectedJson, result);
     }
 
-    [Test]
-    public void Deserialize_creates_expected_object()
+    [Test,AutoMoqData]
+    public void Deserialize_creates_expected_object(JsonCredentialsSerializer sut)
     {
       // Arrange
-      var json = "Test.CSF.StubCredentials, Test.CSF:{\"Key\":\"My key\",\"Salt\":\"Salty goodness\",\"InitialisationNumber\":5}";
+      var json = "CSF.Security.Tests.Stubs.StubCredentials, CSF.Security.Tests:{\"Key\":\"My key\",\"Salt\":\"Salty goodness\",\"InitialisationNumber\":5}";
       var expectedCredentials = new StubCredentials {
         InitialisationNumber = 5,
         Key = "My key",
         Salt = "Salty goodness",
       };
-      var sut = new JsonCredentialsSerializer();
 
       // Act
       var result = sut.Deserialize(json);
@@ -77,26 +77,5 @@ namespace Test.CSF
     }
 
     #endregion
-  }
-
-  public class StubCredentials
-  {
-    public string Key
-    {
-      get;
-      set;
-    }
-
-    public string Salt
-    {
-      get;
-      set;
-    }
-
-    public int InitialisationNumber
-    {
-      get;
-      set;
-    }
   }
 }

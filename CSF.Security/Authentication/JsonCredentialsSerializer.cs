@@ -28,7 +28,7 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace CSF.Security
+namespace CSF.Security.Authentication
 {
   public class JsonCredentialsSerializer : ICredentialsSerializer
   {

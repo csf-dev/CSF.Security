@@ -37,6 +37,8 @@ namespace CSF.Security.Authentication
 
     public TStored StoredCredentials { get; set; }
 
+    public object CredentialsObject { get; set; }
+
     public bool PasswordVerified { get; set; }
 
     public TResult Result { get; set; }

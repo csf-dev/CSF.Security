@@ -1,5 +1,5 @@
-﻿//
-// IStoredCredentials.cs
+//
+// StubCredentials.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
@@ -23,11 +23,32 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
-namespace CSF.Security.Authentication
+using CSF.Security;
+using NUnit.Framework;
+
+namespace CSF.Security.Tests.Stubs
 {
-  public interface IStoredCredentials
+
+  public class StubCredentials
   {
-    string SerializedCredentials { get; }
+    public string Key
+    {
+      get;
+      set;
+    }
+
+    public string Salt
+    {
+      get;
+      set;
+    }
+
+    public int InitialisationNumber
+    {
+      get;
+      set;
+    }
   }
 }

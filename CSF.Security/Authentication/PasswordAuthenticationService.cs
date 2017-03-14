@@ -34,6 +34,7 @@ namespace CSF.Security.Authentication
     readonly IRequestFactory<TRequest> requestFactory;
     readonly IStoredCredentialsRepository repository;
     readonly IPasswordVerifierFactory verifierFactory;
+    readonly ICredentialsSerializer credentialsSerializer;
 
     #endregion
 
@@ -50,6 +51,7 @@ namespace CSF.Security.Authentication
 
       OnBeforeGetStoredCredentials(request);
       RetrieveStoredCredentials(ref request);
+      RetrieveDeserializedCredentials(ref request);
       RetrieveVerifier(ref request);
       OnBeforeVerifyPassword(request);
       PerformVerification(ref request);
@@ -93,15 +95,27 @@ namespace CSF.Security.Authentication
       }
     }
 
-    public virtual void RetrieveVerifier(ref TRequest request)
+    public virtual void RetrieveDeserializedCredentials(ref TRequest request)
     {
       if(request.StoredCredentials == null)
       {
         return;
       }
 
-      request.Verifier = GetVerifier(request);
+      if(request.CredentialsObject == null)
+      {
+        request.CredentialsObject = credentialsSerializer.Deserialize(request.StoredCredentials.SerializedCredentials);
+      }
+    }
 
+    public virtual void RetrieveVerifier(ref TRequest request)
+    {
+      if(request.CredentialsObject == null)
+      {
+        return;
+      }
+
+      request.Verifier = GetVerifier(request);
       if(request.Verifier == null)
       {
         request.Result = GetCannotCreateVerifierResult(request);
@@ -131,7 +145,7 @@ namespace CSF.Security.Authentication
 
     public virtual IPasswordVerifier GetVerifier(TRequest request)
     {
-      return verifierFactory.GetVerifier(request.StoredCredentials.AuthenticationInfo);
+      return verifierFactory.GetVerifier(request.CredentialsObject);
     }
 
     public virtual IStoredCredentials GetStoredCredentials(TRequest request)
@@ -211,8 +225,11 @@ namespace CSF.Security.Authentication
 
     public PasswordAuthenticationService(IRequestFactory<TRequest> requestFactory,
                                          IStoredCredentialsRepository repository,
-                                         IPasswordVerifierFactory verifierFactory)
+                                         IPasswordVerifierFactory verifierFactory,
+                                         ICredentialsSerializer serializer)
     {
+      if(serializer == null)
+        throw new ArgumentNullException(nameof(serializer));
       if(verifierFactory == null)
         throw new ArgumentNullException(nameof(verifierFactory));
       if(repository == null)
@@ -223,6 +240,7 @@ namespace CSF.Security.Authentication
       this.requestFactory = requestFactory;
       this.repository = repository;
       this.verifierFactory = verifierFactory;
+      this.credentialsSerializer = serializer;
     }
 
     #endregion

@@ -30,6 +30,6 @@ namespace CSF.Security.Tests.Stubs
 {
   public class StubStoredCredentials : IStoredCredentials
   {
-    public string AuthenticationInfo { get; set; }
+    public string SerializedCredentials { get; set; }
   }
 }

@@ -56,6 +56,8 @@
     <Compile Include="Authentication\IRequestFactory`1.cs" />
     <Compile Include="Authentication\IRequestFactory.cs" />
     <Compile Include="Authentication\AuthenticationStepEventArgs.cs" />
+    <Compile Include="Authentication\ICredentialsSerializer.cs" />
+    <Compile Include="Authentication\JsonCredentialsSerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

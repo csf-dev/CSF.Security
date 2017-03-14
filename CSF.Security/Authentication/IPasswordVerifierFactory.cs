@@ -28,6 +28,6 @@ namespace CSF.Security.Authentication
 {
   public interface IPasswordVerifierFactory
   {
-    IPasswordVerifier GetVerifier(string authenticationInfo);
+    IPasswordVerifier GetVerifier(object credentialsObject);
   }
 }
