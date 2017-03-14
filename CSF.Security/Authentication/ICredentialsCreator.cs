@@ -1,5 +1,5 @@
 ﻿//
-// IAuthenticationService1.cs
+// ICredentialsCreator.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
@@ -24,17 +24,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-namespace CSF.Security
+namespace CSF.Security.Authentication
 {
-  /// <summary>
-  /// Generic authentication service, gets an authentication result on the basis of some provided credentials.
-  /// </summary>
-  public interface IAuthenticationService<TEnteredCredentials> : IAuthenticationService
+  public interface ICredentialsCreator
   {
-    /// <summary>
-    /// Attempts authentication using the given credentials.
-    /// </summary>
-    /// <param name="enteredCredentials">Entered credentials.</param>
-    AuthenticationResult Authenticate(TEnteredCredentials enteredCredentials);
+    object CreateCredentials(IEnteredPassword password);
   }
 }

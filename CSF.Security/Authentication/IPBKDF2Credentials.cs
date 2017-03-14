@@ -1,10 +1,10 @@
 ﻿//
-// ICredentialVerifier.cs
+// IPBKDF2Credentials.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2017 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,21 +24,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-
-namespace CSF.Security
+namespace CSF.Security.Authentication
 {
   /// <summary>
-  /// Credentials verifier interface.  Verifies that a set of entered credentials (such as those provided by a user)
-  /// matches a set of stored credentials (such as those retrieved from a database).
+  /// Represents a credentials object which may be used with a <see cref="PBKDF2PasswordVerifier"/>.
   /// </summary>
-  public interface ICredentialVerifier
+  public interface IPBKDF2Credentials : IPBKDF2Parameters
   {
     /// <summary>
-    /// Verifies that the entered credentials match the stored credentials.
+    /// Gets the key as a byte array.
     /// </summary>
-    /// <param name="enteredCredentials">Entered credentials.</param>
-    /// <param name="storedCredentials">Stored credentials.</param>
-    bool Verify(object enteredCredentials, object storedCredentials);
+    /// <returns>The key as a byte array.</returns>
+    byte[] GetKeyAsByteArray();
+
+    /// <summary>
+    /// Gets the salt as a byte array.
+    /// </summary>
+    /// <returns>The salt as a byte array.</returns>
+    byte[] GetSaltAsByteArray();
   }
 }
-

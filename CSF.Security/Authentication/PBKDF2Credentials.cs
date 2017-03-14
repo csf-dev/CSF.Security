@@ -1,5 +1,5 @@
 ﻿//
-// IPBKDF2Credentials.cs
+// PBKDF2Credentials.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
@@ -24,25 +24,61 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-namespace CSF.Security
+namespace CSF.Security.Authentication
 {
-  /// <summary>
-  /// Represents a specialisation of <see cref="IStoredCredentialsWithKeyAndSalt"/> that also contains a PBKDF2
-  /// iteration count.
-  /// </summary>
-  /// <remarks>
-  /// <para>
-  /// Passing an instance which implements this interface to the constructor of a
-  /// <see cref="T:PBKDF2CredentialVerifier{TEnteredCredentials,TStoredCredentials}"/> (as the stored credentials)
-  /// allows it to configure its own iteration count from the stored credentials.
-  /// </para>
-  /// </remarks>
-  public interface IPBKDF2Credentials : IStoredCredentialsWithKeyAndSalt
+  public class PBKDF2Credentials : IPBKDF2Credentials
   {
-    /// <summary>
-    /// Gets the iteration count.
-    /// </summary>
-    /// <value>The iteration count.</value>
-    int IterationCount { get; }
+    public string Key { get; set; }
+
+    public string Salt { get; set; }
+
+    public int IterationCount { get; set; }
+
+    private byte[] GetKeyAsByteArray()
+    {
+      if(Key == null)
+      {
+        return null;
+      }
+
+      return Convert.FromBase64String(Key);
+    }
+
+    private byte[] GetSaltAsByteArray()
+    {
+      if(Salt == null)
+      {
+        return null;
+      }
+
+      return Convert.FromBase64String(Salt);
+    }
+
+    int IPBKDF2Parameters.GetIterationCount()
+    {
+      return IterationCount;
+    }
+
+    byte[] IPBKDF2Credentials.GetKeyAsByteArray()
+    {
+      return GetKeyAsByteArray();
+    }
+
+    int IPBKDF2Parameters.GetKeyLength()
+    {
+      var key = GetKeyAsByteArray();
+      return (key != null)? key.Length : 0;
+    }
+
+    byte[] IPBKDF2Credentials.GetSaltAsByteArray()
+    {
+      return GetSaltAsByteArray();
+    }
+
+    int IPBKDF2Parameters.GetSaltLength()
+    {
+      var salt = GetSaltAsByteArray();
+      return (salt != null)? salt.Length : 0;
+    }
   }
 }

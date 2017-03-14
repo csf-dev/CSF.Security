@@ -28,6 +28,6 @@ namespace CSF.Security.Authentication
 {
   public interface IPasswordVerifier
   {
-    bool Verify(IEnteredPassword enteredCredentials, IStoredCredentials storedCredentials);
+    bool Verify(IEnteredPassword enteredCredentials, object credentialsObject);
   }
 }

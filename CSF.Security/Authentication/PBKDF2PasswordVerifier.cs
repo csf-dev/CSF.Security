@@ -27,25 +27,23 @@ using System;
 using System.Security.Cryptography;
 using System.Linq;
 
-namespace CSF.Security
+namespace CSF.Security.Authentication
 {
   /// <summary>
-  /// Implementation of an <see cref="ICredentialVerifier"/> which uses the PBKDF2 mechanism.
+  /// Implementation of an <see cref="IPasswordVerifier"/> which uses the PBKDF2 mechanism.
   /// </summary>
-  public class PBKDF2CredentialVerifier : ICredentialVerifier<ICredentialsWithPassword,IStoredCredentialsWithKeyAndSalt>,
-                                          ICredentialVerifier,
-                                          IBinaryKeyCreator
+  public class PBKDF2PasswordVerifier : IPasswordVerifier, ICredentialsCreator
   {
     #region constants
 
     static readonly RNGCryptoServiceProvider _randomNumberGenerator;
-    internal const int DefaultIterationCount = 256000;
+    internal const int DefaultIterationCount = 256000, DefaultKeyLength = 16, DefaultSaltLength = 16;
 
     #endregion
 
     #region fields
 
-    private int _iterationCount;
+    private int iterationCount, saltLength, keyLength;
 
     #endregion
 
@@ -58,7 +56,7 @@ namespace CSF.Security
     protected int IterationCount
     {
       get {
-        return _iterationCount;
+        return iterationCount;
       }
     }
 
@@ -81,40 +79,54 @@ namespace CSF.Security
     /// Verifies that the entered credentials match the stored credentials.
     /// </summary>
     /// <param name="enteredCredentials">Entered credentials.</param>
-    /// <param name="storedCredentials">Stored credentials.</param>
-    public virtual bool Verify(ICredentialsWithPassword enteredCredentials,
-                               IStoredCredentialsWithKeyAndSalt storedCredentials)
+    /// <param name="credentialsObject">Stored credentials.</param>
+    public virtual bool Verify(IEnteredPassword enteredCredentials, object credentialsObject)
     {
       if(enteredCredentials == null)
       {
         throw new ArgumentNullException(nameof(enteredCredentials));
       }
-      if(storedCredentials == null)
+      if(credentialsObject == null)
       {
-        throw new ArgumentNullException(nameof(storedCredentials));
+        throw new ArgumentNullException(nameof(credentialsObject));
       }
 
-      var storedSalt = storedCredentials.GetSaltAsByteArray();
-      var storedKey = storedCredentials.GetKeyAsByteArray();
+      var pbkdf2Credentials = (IPBKDF2Credentials) credentialsObject;
+
+      var storedSalt = pbkdf2Credentials.GetSaltAsByteArray();
+      var storedKey = pbkdf2Credentials.GetKeyAsByteArray();
       var enteredPassword = enteredCredentials.GetPasswordAsByteArray();
 
       var generatedKey = CreateKey(enteredPassword, storedSalt, storedKey.Length);
       return Enumerable.SequenceEqual(generatedKey, storedKey);
     }
 
+
+    public virtual object CreateCredentials(IEnteredPassword password)
+    {
+      if(password == null)
+      {
+        return null;
+      }
+
+      var salt = CreateRandomSalt();
+      var key = CreateKey(password.GetPasswordAsByteArray(), salt, keyLength);
+
+      return new PBKDF2Credentials
+      {
+        IterationCount = iterationCount,
+        Key = Convert.ToBase64String(key),
+        Salt = Convert.ToBase64String(salt)
+      };
+    }
+
     /// <summary>
     /// Creates a random salt, as a byte array.
     /// </summary>
     /// <returns>The random salt.</returns>
-    /// <param name="length">Desired salt length in bytes.</param>
-    public virtual byte[] CreateRandomSalt(int length)
+    protected virtual byte[] CreateRandomSalt()
     {
-      if(length < 1)
-      {
-        throw new ArgumentOutOfRangeException(nameof(length), "Salt length must be more than zero.");
-      }
-
-      var output = new byte[length];
+      var output = new byte[saltLength];
 
       RandomNumberGenerator.GetBytes(output);
 
@@ -158,13 +170,28 @@ namespace CSF.Security
       return new Rfc2898DeriveBytes(password, salt, IterationCount);
     }
 
-    #endregion
-
-    #region interface implementations
-
-    bool ICredentialVerifier.Verify(object enteredCredentials, object storedCredentials)
+#pragma warning disable RECS0082 // Parameter has the same name as a member and hides it
+    private void ConfigureInitialisationParameters(int iterationCount = DefaultIterationCount,
+                                                   int keyLength = DefaultKeyLength,
+                                                   int saltLength = DefaultSaltLength)
+#pragma warning restore RECS0082 // Parameter has the same name as a member and hides it
     {
-      return Verify((ICredentialsWithPassword) enteredCredentials, (IStoredCredentialsWithKeyAndSalt) storedCredentials);
+      if(iterationCount < 1)
+      {
+        throw new ArgumentOutOfRangeException(nameof(iterationCount), "Iteration count must be more than zero.");
+      }
+      if(saltLength < 8)
+      {
+        throw new ArgumentOutOfRangeException(nameof(saltLength), "The salt must be at least 8 bytes in length.");
+      }
+      if(keyLength < 1)
+      {
+        throw new ArgumentOutOfRangeException(nameof(keyLength), "The key must be at least 1 byte in length.");
+      }
+
+      this.iterationCount = iterationCount;
+      this.saltLength = saltLength;
+      this.keyLength = keyLength;
     }
 
     #endregion
@@ -172,7 +199,7 @@ namespace CSF.Security
     #region constructors
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PBKDF2CredentialVerifier"/> class.
+    /// Initializes a new instance of the <see cref="PBKDF2PasswordVerifier"/> class.
     /// </summary>
     /// <remarks>
     /// <para>
@@ -192,44 +219,42 @@ namespace CSF.Security
     /// </para>
     /// </remarks>
     /// <param name="iterationCount">Iteration count.</param>
-    public PBKDF2CredentialVerifier(int iterationCount = DefaultIterationCount)
+    /// <param name="keyLength">Key byte length.</param>
+    /// <param name="saltLength">Salt byte length.</param>
+    public PBKDF2PasswordVerifier(int iterationCount = DefaultIterationCount,
+                                  int keyLength = DefaultKeyLength,
+                                  int saltLength = DefaultSaltLength)
     {
-      if(iterationCount < 1)
-      {
-        throw new ArgumentOutOfRangeException(nameof(iterationCount), "Iteration count must be more than zero.");
-      }
-
-      _iterationCount = iterationCount;
+      ConfigureInitialisationParameters(iterationCount, keyLength, saltLength);
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PBKDF2CredentialVerifier"/> class.
+    /// Initializes a new instance of the <see cref="PBKDF2PasswordVerifier"/> class.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// This overload of the constructor initialises the instance from the entered and stored credentials.
+    /// This overload of the constructor initialises the instance from the parameters object.
     /// </para>
     /// </remarks>
-    /// <param name="enteredCredentials">Entered credentials.</param>
-    /// <param name="storedCredentials">Stored credentials.</param>
-    public PBKDF2CredentialVerifier(ICredentialsWithPassword enteredCredentials,
-                                    IStoredCredentialsWithKeyAndSalt storedCredentials)
+    /// <param name="parameters">The parameters object.</param>
+    public PBKDF2PasswordVerifier(IPBKDF2Parameters parameters)
     {
-      var storedCredsWithIterationCount = storedCredentials as IPBKDF2Credentials;
-      if(storedCredsWithIterationCount != null)
+      if(parameters != null)
       {
-        _iterationCount = storedCredsWithIterationCount.IterationCount;
+        ConfigureInitialisationParameters(parameters.GetIterationCount(),
+                                          parameters.GetKeyLength(),
+                                          parameters.GetSaltLength());
       }
       else
       {
-        _iterationCount = DefaultIterationCount;
+        ConfigureInitialisationParameters();
       }
     }
 
     /// <summary>
-    /// Initializes the <see cref="PBKDF2CredentialVerifier"/> class.
+    /// Initializes the <see cref="PBKDF2PasswordVerifier"/> class.
     /// </summary>
-    static PBKDF2CredentialVerifier()
+    static PBKDF2PasswordVerifier()
     {
       _randomNumberGenerator = new RNGCryptoServiceProvider();
     }

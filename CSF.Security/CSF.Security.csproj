@@ -49,7 +49,7 @@
     <Compile Include="Authentication\AuthenticationResult.cs" />
     <Compile Include="Authentication\PasswordAuthenticationRequest`2.cs" />
     <Compile Include="Authentication\EnteredPasswordBase.cs" />
-    <Compile Include="Authentication\PasswordAuthenticationService.cs" />
+    <Compile Include="Authentication\PasswordAuthenticationService`1.cs" />
     <Compile Include="Authentication\IStoredCredentialsRepository.cs" />
     <Compile Include="Authentication\IPasswordVerifier.cs" />
     <Compile Include="Authentication\IPasswordVerifierFactory.cs" />
@@ -58,6 +58,13 @@
     <Compile Include="Authentication\AuthenticationStepEventArgs.cs" />
     <Compile Include="Authentication\ICredentialsSerializer.cs" />
     <Compile Include="Authentication\JsonCredentialsSerializer.cs" />
+    <Compile Include="Authentication\PasswordVerifierFactory.cs" />
+    <Compile Include="Authentication\PBKDF2PasswordVerifier.cs" />
+    <Compile Include="Authentication\IPBKDF2Credentials.cs" />
+    <Compile Include="Authentication\IPBKDF2Parameters.cs" />
+    <Compile Include="Authentication\ICredentialsCreator.cs" />
+    <Compile Include="Authentication\PBKDF2Parameters.cs" />
+    <Compile Include="Authentication\PBKDF2Credentials.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

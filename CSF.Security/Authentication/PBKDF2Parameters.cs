@@ -1,10 +1,10 @@
 ﻿//
-// IStoredCredentialsWithPasswordAndSalt.cs
+// PBKDF2Parameters.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2017 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,26 +24,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-
-namespace CSF.Security
+namespace CSF.Security.Authentication
 {
-  /// <summary>
-  /// Base interface for a form of credentials which includes a key (the hashed password) and a salt, both of
-  /// which may be returned as byte arrays.
-  /// </summary>
-  public interface IStoredCredentialsWithKeyAndSalt
+  public class PBKDF2Parameters : IPBKDF2Parameters
   {
-    /// <summary>
-    /// Gets the key as a byte array.
-    /// </summary>
-    /// <returns>The key as a byte array.</returns>
-    byte[] GetKeyAsByteArray();
+    public int IterationCount { get; set; }
 
-    /// <summary>
-    /// Gets the salt as a byte array.
-    /// </summary>
-    /// <returns>The salt as a byte array.</returns>
-    byte[] GetSaltAsByteArray();
+    public int KeyLength { get; set; }
+
+    public int SaltLength { get; set; }
+
+    int IPBKDF2Parameters.GetKeyLength()
+    {
+      return KeyLength;
+    }
+
+    int IPBKDF2Parameters.GetSaltLength()
+    {
+      return SaltLength;
+    }
+
+    int IPBKDF2Parameters.GetIterationCount()
+    {
+      return IterationCount;
+    }
   }
 }
-

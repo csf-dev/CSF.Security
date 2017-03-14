@@ -61,6 +61,7 @@
     <Compile Include="Stubs\StubAuthenticationRequest.cs" />
     <Compile Include="Authentication\JsonCredentialsSerializerTests.cs" />
     <Compile Include="Stubs\StubCredentials.cs" />
+    <Compile Include="Authentication\PBKDF2PasswordVerifierTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
