@@ -47,7 +47,7 @@
     <Compile Include="Authentication\IPassword.cs" />
     <Compile Include="Authentication\IAuthenticationResult.cs" />
     <Compile Include="Authentication\AuthenticationResult.cs" />
-    <Compile Include="Authentication\PasswordAuthenticationRequest`2.cs" />
+    <Compile Include="Authentication\PasswordAuthenticationRequest`3.cs" />
     <Compile Include="Authentication\CredentialsWithPassword.cs" />
     <Compile Include="Authentication\PasswordAuthenticationService`1.cs" />
     <Compile Include="Authentication\IStoredCredentialsRepository.cs" />
