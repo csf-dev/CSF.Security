@@ -56,7 +56,6 @@
   <ItemGroup>
     <Compile Include="Authentication\PasswordAuthenticationServiceTests.cs" />
     <Compile Include="AutoMoqDataAttribute.cs" />
-    <Compile Include="Stubs\StubEnteredPassword.cs" />
     <Compile Include="Stubs\StubStoredCredentials.cs" />
     <Compile Include="Stubs\StubAuthenticationRequest.cs" />
     <Compile Include="Authentication\JsonCredentialsSerializerTests.cs" />

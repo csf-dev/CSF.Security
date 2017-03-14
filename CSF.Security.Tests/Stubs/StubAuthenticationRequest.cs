@@ -28,7 +28,7 @@ using CSF.Security.Authentication;
 
 namespace CSF.Security.Tests.Stubs
 {
-  public class StubAuthenticationRequest : PasswordAuthenticationRequest<StubEnteredPassword, StubStoredCredentials, AuthenticationResult>
+  public class StubAuthenticationRequest : PasswordAuthenticationRequest<CredentialsWithPassword, StubStoredCredentials, AuthenticationResult>
   {
   }
 }

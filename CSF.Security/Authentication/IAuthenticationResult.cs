@@ -26,8 +26,15 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Represents the result from authentication.
+  /// </summary>
   public interface IAuthenticationResult
   {
+    /// <summary>
+    /// Gets a value indicating whether this instance represents successful authentication.
+    /// </summary>
+    /// <value><c>true</c> if authentication was a success; otherwise, <c>false</c>.</value>
     bool Success { get; }
   }
 }

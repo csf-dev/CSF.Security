@@ -26,10 +26,21 @@
 using System;
 namespace CSF.Security.Authentication
 {
-  public interface IEnteredPassword
+  /// <summary>
+  /// Represents the credentials which a user has entered.  This includes (at minimum) a password.
+  /// </summary>
+  public interface IPassword
   {
+    /// <summary>
+    /// Gets the password.
+    /// </summary>
+    /// <value>The password.</value>
     string Password { get; }
 
+    /// <summary>
+    /// Gets the password as a byte array.
+    /// </summary>
+    /// <returns>The password as byte array.</returns>
     byte[] GetPasswordAsByteArray();
   }
 }

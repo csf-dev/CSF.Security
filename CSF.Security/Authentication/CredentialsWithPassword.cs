@@ -26,14 +26,25 @@
 using System;
 namespace CSF.Security.Authentication
 {
-  public abstract class EnteredPasswordBase : IEnteredPassword
+  /// <summary>
+  /// Represents the credentials that a user has entered at a login prompt.  Includes a password.
+  /// </summary>
+  public class CredentialsWithPassword : IPassword
   {
+    /// <summary>
+    /// Gets or sets the password.
+    /// </summary>
+    /// <value>The password.</value>
     public string Password
     {
       get;
       set;
     }
 
+    /// <summary>
+    /// Gets the password as a byte array.
+    /// </summary>
+    /// <returns>The password as byte array.</returns>
     public byte[] GetPasswordAsByteArray()
     {
       if(Password == null)

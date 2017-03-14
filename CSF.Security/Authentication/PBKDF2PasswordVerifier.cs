@@ -80,7 +80,7 @@ namespace CSF.Security.Authentication
     /// </summary>
     /// <param name="enteredCredentials">Entered credentials.</param>
     /// <param name="credentialsObject">Stored credentials.</param>
-    public virtual bool Verify(IEnteredPassword enteredCredentials, object credentialsObject)
+    public virtual bool Verify(IPassword enteredCredentials, object credentialsObject)
     {
       if(enteredCredentials == null)
       {
@@ -101,8 +101,12 @@ namespace CSF.Security.Authentication
       return Enumerable.SequenceEqual(generatedKey, storedKey);
     }
 
-
-    public virtual object CreateCredentials(IEnteredPassword password)
+    /// <summary>
+    /// Creates the credentials based on the given password, using the parameters stored within the current instance.
+    /// </summary>
+    /// <returns>The credentials.</returns>
+    /// <param name="password">Password.</param>
+    public virtual object CreateCredentials(IPassword password)
     {
       if(password == null)
       {

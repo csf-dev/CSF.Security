@@ -26,12 +26,27 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Implementation of <see cref="IPBKDF2Credentials"/> which carries the appropriate information.
+  /// </summary>
   public class PBKDF2Credentials : IPBKDF2Credentials
   {
+    /// <summary>
+    /// Gets or sets the key as a Base64-encoded string.
+    /// </summary>
+    /// <value>The key.</value>
     public string Key { get; set; }
 
+    /// <summary>
+    /// Gets or sets the salt as a Base64-encoded string.
+    /// </summary>
+    /// <value>The salt.</value>
     public string Salt { get; set; }
 
+    /// <summary>
+    /// Gets or sets the iteration count.
+    /// </summary>
+    /// <value>The iteration count.</value>
     public int IterationCount { get; set; }
 
     private byte[] GetKeyAsByteArray()

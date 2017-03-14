@@ -26,8 +26,15 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Interface for a service which provides authentication services.
+  /// </summary>
   public interface IPasswordAuthenticationService
   {
-    IAuthenticationResult Authenticate(IEnteredPassword enteredPassword);
+    /// <summary>
+    /// Authenticate using the given password, and return the outcome.
+    /// </summary>
+    /// <param name="enteredPassword">Entered password.</param>
+    IAuthenticationResult Authenticate(IPassword enteredPassword);
   }
 }

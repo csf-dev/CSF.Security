@@ -103,7 +103,7 @@ namespace CSF.Security.Tests.Authentication
     }
 
     [Test,AutoMoqData]
-    public void CreateCredentials_creates_credentials_with_correct_parameters(IEnteredPassword password,
+    public void CreateCredentials_creates_credentials_with_correct_parameters(IPassword password,
                                                                               IPBKDF2Parameters parameters)
     {
       // Arrange
@@ -137,7 +137,7 @@ namespace CSF.Security.Tests.Authentication
 
     [Test,AutoMoqData]
     public void Verify_returns_true_for_correct_password_salt_and_iteration_count(IPBKDF2Credentials credentials,
-                                                                                  IEnteredPassword entered)
+                                                                                  IPassword entered)
     {
       // Arrange
       Mock.Get(credentials)
@@ -161,7 +161,7 @@ namespace CSF.Security.Tests.Authentication
 
     [Test,AutoMoqData]
     public void Verify_returns_false_for_correct_password_and_iteration_count_but_wrong_salt(IPBKDF2Credentials credentials,
-                                                                                             IEnteredPassword entered)
+                                                                                             IPassword entered)
     {
       // Arrange
       Mock.Get(credentials)
@@ -185,7 +185,7 @@ namespace CSF.Security.Tests.Authentication
 
     [Test,AutoMoqData]
     public void Verify_returns_false_for_correct_salt_and_iteration_count_but_wrong_password(IPBKDF2Credentials credentials,
-                                                                                             IEnteredPassword entered)
+                                                                                             IPassword entered)
     {
       // Arrange
       Mock.Get(credentials)
@@ -209,7 +209,7 @@ namespace CSF.Security.Tests.Authentication
 
     [Test,AutoMoqData]
     public void Verify_returns_false_for_correct_password_and_salt_but_wrong_iteration_count(IPBKDF2Credentials credentials,
-                                                                                             IEnteredPassword entered)
+                                                                                             IPassword entered)
     {
       // Arrange
       Mock.Get(credentials)

@@ -26,8 +26,16 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Service which creates instance of <see cref="IPasswordAuthenticationRequest"/>.
+  /// </summary>
   public interface IRequestFactory
   {
-    object CreateRequest(IEnteredPassword enteredPassword);
+    /// <summary>
+    /// Creates the request.
+    /// </summary>
+    /// <returns>The request.</returns>
+    /// <param name="enteredPassword">Entered password.</param>
+    IPasswordAuthenticationRequest CreateRequest(IPassword enteredPassword);
   }
 }

@@ -30,8 +30,16 @@ using Newtonsoft.Json;
 
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Implementation of <see cref="ICredentialsSerializer"/> which serializes/deserializes to/from JSON-formatted
+  /// strings.
+  /// </summary>
   public class JsonCredentialsSerializer : ICredentialsSerializer
   {
+    /// <summary>
+    /// Deserialize the specified serialized credentials string.
+    /// </summary>
+    /// <param name="credentials">Credentials.</param>
     public object Deserialize(string credentials)
     {
       if(credentials == null)
@@ -53,6 +61,11 @@ namespace CSF.Security.Authentication
       return GetDeserializedCredentials(jsonObject, type);
     }
 
+    /// <summary>
+    /// Serialize the specified credentials to a string.
+    /// </summary>
+    /// <param name="credentials">Credentials.</param>
+    /// <typeparam name="TCredentials">The 1st type parameter.</typeparam>
     public string Serialize<TCredentials>(TCredentials credentials)
     {
       if(ReferenceEquals(credentials, null))

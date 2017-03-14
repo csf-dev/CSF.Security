@@ -26,8 +26,16 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// A service which retrieves <see cref="IStoredCredentials"/> based upon the entered credentials.
+  /// </summary>
   public interface IStoredCredentialsRepository
   {
-    IStoredCredentials GetStoredCredentials(IEnteredPassword enteredCredentials);
+    /// <summary>
+    /// Gets the stored credentials.
+    /// </summary>
+    /// <returns>The stored credentials.</returns>
+    /// <param name="enteredCredentials">Entered credentials.</param>
+    IStoredCredentials GetStoredCredentials(IPassword enteredCredentials);
   }
 }

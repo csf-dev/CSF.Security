@@ -26,18 +26,46 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Represents a request (which passes through an instance of <see cref="IPasswordAuthenticationService"/>,
+  /// bringing together the information pertaining to an authentication attempt in a single context type.
+  /// </summary>
   public interface IPasswordAuthenticationRequest
   {
-    IEnteredPassword EnteredCredentials { get; set; }
+    /// <summary>
+    /// Gets or sets the entered credentials.
+    /// </summary>
+    /// <value>The entered credentials.</value>
+    IPassword EnteredCredentials { get; set; }
 
+    /// <summary>
+    /// Gets or sets the stored credentials from a data-store.
+    /// </summary>
+    /// <value>The stored credentials.</value>
     IStoredCredentials StoredCredentials { get; set; }
 
+    /// <summary>
+    /// Gets or sets the credentials object (after deserialization).
+    /// </summary>
+    /// <value>The credentials object.</value>
     object CredentialsObject { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the password has been verified.
+    /// </summary>
+    /// <value><c>true</c> if the password is verified; otherwise, <c>false</c>.</value>
     bool PasswordVerified { get; set; }
 
+    /// <summary>
+    /// Gets or sets the overall result.
+    /// </summary>
+    /// <value>The result.</value>
     IAuthenticationResult Result { get; set; }
 
+    /// <summary>
+    /// Gets or sets the password verifier service to use.
+    /// </summary>
+    /// <value>The verifier.</value>
     IPasswordVerifier Verifier { get; set; }
   }
 }

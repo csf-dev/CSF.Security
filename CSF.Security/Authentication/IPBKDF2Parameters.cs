@@ -26,6 +26,9 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Represents the relevant parameters for the PBKDF2 hashing algorithm.
+  /// </summary>
   public interface IPBKDF2Parameters
   {
     /// <summary>

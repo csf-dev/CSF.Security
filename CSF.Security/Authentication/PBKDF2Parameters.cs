@@ -26,12 +26,27 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Implementation of <see cref="IPBKDF2Parameters"/> which carries the appropriate information.
+  /// </summary>
   public class PBKDF2Parameters : IPBKDF2Parameters
   {
+    /// <summary>
+    /// Gets or sets the iteration count.
+    /// </summary>
+    /// <value>The iteration count.</value>
     public int IterationCount { get; set; }
 
+    /// <summary>
+    /// Gets or sets the length of the key (in bytes).
+    /// </summary>
+    /// <value>The length of the key.</value>
     public int KeyLength { get; set; }
 
+    /// <summary>
+    /// Gets or sets the length of the salt (in bytes).
+    /// </summary>
+    /// <value>The length of the salt.</value>
     public int SaltLength { get; set; }
 
     int IPBKDF2Parameters.GetKeyLength()

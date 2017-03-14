@@ -26,12 +26,24 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Event arguments type for a step within the authentication process..
+  /// </summary>
   [System.Serializable]
   public sealed class AuthenticationStepEventArgs<TRequest> : EventArgs
     where TRequest : IPasswordAuthenticationRequest
   {
+    /// <summary>
+    /// Gets the authentication request.
+    /// </summary>
+    /// <value>The authentication request.</value>
     public TRequest AuthenticationRequest { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:CSF.Security.Authentication.AuthenticationStepEventArgs{TRequest}"/> class.
+    /// </summary>
+    /// <param name="authenticationRequest">Authentication request.</param>
     public AuthenticationStepEventArgs(TRequest authenticationRequest)
     {
       if(ReferenceEquals(authenticationRequest, null))

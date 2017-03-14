@@ -26,12 +26,28 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Represents an authentication result.
+  /// </summary>
   public class AuthenticationResult : IAuthenticationResult
   {
+    /// <summary>
+    /// Gets a value indicating whether the credentials (user account) were found.
+    /// </summary>
+    /// <value><c>true</c> if the credentials were found; otherwise, <c>false</c>.</value>
     public bool CredentialsFound { get; }
 
+    /// <summary>
+    /// Gets a value indicating whether this instance represents successful authentication.
+    /// </summary>
+    /// <value><c>true</c> if authentication was a success; otherwise, <c>false</c>.</value>
     public bool Success { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:CSF.Security.Authentication.AuthenticationResult"/> class.
+    /// </summary>
+    /// <param name="success">If set to <c>true</c> success.</param>
+    /// <param name="credentialsFound">If set to <c>true</c> credentials found.</param>
     public AuthenticationResult(bool success, bool credentialsFound)
     {
       Success = success;

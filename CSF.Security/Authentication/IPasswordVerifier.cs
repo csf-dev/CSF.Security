@@ -26,8 +26,16 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Serivce which verifies a password against the stored credentials.
+  /// </summary>
   public interface IPasswordVerifier
   {
-    bool Verify(IEnteredPassword enteredCredentials, object credentialsObject);
+    /// <summary>
+    /// Verify the specified entered credentials against the specified credentials object.
+    /// </summary>
+    /// <param name="enteredCredentials">Entered credentials.</param>
+    /// <param name="credentialsObject">Credentials object.</param>
+    bool Verify(IPassword enteredCredentials, object credentialsObject);
   }
 }

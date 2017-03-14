@@ -26,8 +26,17 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Serivce which gets instances of <see cref="IPasswordVerifier"/> based upon the credentials objects which
+  /// have been retrieved from a data-store.
+  /// </summary>
   public interface IPasswordVerifierFactory
   {
+    /// <summary>
+    /// Gets the password verifier.
+    /// </summary>
+    /// <returns>The verifier.</returns>
+    /// <param name="credentialsObject">Credentials object.</param>
     IPasswordVerifier GetVerifier(object credentialsObject);
   }
 }

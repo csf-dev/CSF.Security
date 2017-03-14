@@ -26,8 +26,16 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// A service which creates a credentials object instance from an entered password.
+  /// </summary>
   public interface ICredentialsCreator
   {
-    object CreateCredentials(IEnteredPassword password);
+    /// <summary>
+    /// Creates the credentials.
+    /// </summary>
+    /// <returns>The credentials.</returns>
+    /// <param name="password">Password.</param>
+    object CreateCredentials(IPassword password);
   }
 }

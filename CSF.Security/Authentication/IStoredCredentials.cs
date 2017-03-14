@@ -26,8 +26,15 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Represents credentials which have come from a data-store, such as a database.
+  /// </summary>
   public interface IStoredCredentials
   {
+    /// <summary>
+    /// Gets the serialized credentials object.
+    /// </summary>
+    /// <value>The serialized credentials.</value>
     string SerializedCredentials { get; }
   }
 }

@@ -26,30 +26,58 @@
 using System;
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Implementation of <see cref="IPasswordAuthenticationRequest"/> which is generic for the entered &amp; stored
+  /// credentials, as well as for the authentication result.
+  /// </summary>
   public class PasswordAuthenticationRequest<TEntered, TStored, TResult> : IPasswordAuthenticationRequest
-    where TEntered : IEnteredPassword
+    where TEntered : IPassword
     where TStored : IStoredCredentials
     where TResult : IAuthenticationResult
   {
     #region properties
 
+    /// <summary>
+    /// Gets or sets the entered credentials.
+    /// </summary>
+    /// <value>The entered credentials.</value>
     public TEntered EnteredCredentials { get; set; }
 
+    /// <summary>
+    /// Gets or sets the stored credentials from a data-store.
+    /// </summary>
+    /// <value>The stored credentials.</value>
     public TStored StoredCredentials { get; set; }
 
+    /// <summary>
+    /// Gets or sets the credentials object (after deserialization).
+    /// </summary>
+    /// <value>The credentials object.</value>
     public object CredentialsObject { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the password has been verified.
+    /// </summary>
+    /// <value><c>true</c> if the password is verified; otherwise, <c>false</c>.</value>
     public bool PasswordVerified { get; set; }
 
+    /// <summary>
+    /// Gets or sets the overall result.
+    /// </summary>
+    /// <value>The result.</value>
     public TResult Result { get; set; }
 
+    /// <summary>
+    /// Gets or sets the password verifier service to use.
+    /// </summary>
+    /// <value>The verifier.</value>
     public IPasswordVerifier Verifier { get; set; }
 
     #endregion
 
     #region explicit interface implementation
 
-    IEnteredPassword IPasswordAuthenticationRequest.EnteredCredentials
+    IPassword IPasswordAuthenticationRequest.EnteredCredentials
     {
       get { return EnteredCredentials; }
       set { EnteredCredentials = (TEntered) value; }

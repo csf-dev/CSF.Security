@@ -28,10 +28,18 @@ using System.Collections.Generic;
 
 namespace CSF.Security.Authentication
 {
+  /// <summary>
+  /// Implementation of <see cref="IPasswordVerifierFactory"/> which uses a collection of creation-functions
+  /// to create a verifier instance based upon the type of credentials provided.
+  /// </summary>
   public class PasswordVerifierFactory : IPasswordVerifierFactory
   {
     readonly Dictionary<Type,Func<object,IPasswordVerifier>> creationFunctions;
 
+    /// <summary>
+    /// Gets the dictionary of creation functions.
+    /// </summary>
+    /// <value>The creation functions.</value>
     public IDictionary<Type, Func<object, IPasswordVerifier>> CreationFunctions
     {
       get {
@@ -39,6 +47,11 @@ namespace CSF.Security.Authentication
       }
     }
 
+    /// <summary>
+    /// Gets a verifier based upon a credentials object.
+    /// </summary>
+    /// <returns>The verifier.</returns>
+    /// <param name="credentialsObject">Credentials object.</param>
     public IPasswordVerifier GetVerifier(object credentialsObject)
     {
       var creationFunction = GetVerifierFunction(credentialsObject);
@@ -77,6 +90,9 @@ namespace CSF.Security.Authentication
       return null;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:CSF.Security.Authentication.PasswordVerifierFactory"/> class.
+    /// </summary>
     public PasswordVerifierFactory()
     {
       creationFunctions = new Dictionary<Type, Func<object, IPasswordVerifier>>();

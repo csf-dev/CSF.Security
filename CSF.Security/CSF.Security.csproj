@@ -44,11 +44,11 @@
     <Compile Include="Authentication\IPasswordAuthenticationService.cs" />
     <Compile Include="Authentication\IPasswordAuthenticationRequest.cs" />
     <Compile Include="Authentication\IStoredCredentials.cs" />
-    <Compile Include="Authentication\IEnteredPassword.cs" />
+    <Compile Include="Authentication\IPassword.cs" />
     <Compile Include="Authentication\IAuthenticationResult.cs" />
     <Compile Include="Authentication\AuthenticationResult.cs" />
     <Compile Include="Authentication\PasswordAuthenticationRequest`2.cs" />
-    <Compile Include="Authentication\EnteredPasswordBase.cs" />
+    <Compile Include="Authentication\CredentialsWithPassword.cs" />
     <Compile Include="Authentication\PasswordAuthenticationService`1.cs" />
     <Compile Include="Authentication\IStoredCredentialsRepository.cs" />
     <Compile Include="Authentication\IPasswordVerifier.cs" />
