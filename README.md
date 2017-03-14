@@ -2,6 +2,8 @@
 This library provides an abstraction to logging into an application using a password.
 It encapsulates a number of best-practices into a central service type which may be consumed and extended by your own application.
 
+**[Current CI build status](https://github.com/csf-dev/CSF.Security/blob/master/.travis.yml)** : [![Build Status](https://travis-ci.org/csf-dev/CSF.Security.svg?branch=master)](https://travis-ci.org/csf-dev/CSF.Security/)
+
 ## Documentation
 The best place for documentation is [the project wiki on GitHub].  Internally this library primarily supports **PBKDF2** password hashing, via the built-in [Rfc2898DeriveBytes] type.  However, it may be easily extended with any other password-verification algorithms.
 
