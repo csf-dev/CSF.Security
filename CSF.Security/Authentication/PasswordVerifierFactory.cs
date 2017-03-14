@@ -96,6 +96,11 @@ namespace CSF.Security.Authentication
     public PasswordVerifierFactory()
     {
       creationFunctions = new Dictionary<Type, Func<object, IPasswordVerifier>>();
+
+      creationFunctions.Add(typeof(PBKDF2Credentials), credentials => {
+        var parameters = (IPBKDF2Parameters) credentials;
+        return new PBKDF2PasswordVerifier(parameters);
+      });
     }
   }
 }

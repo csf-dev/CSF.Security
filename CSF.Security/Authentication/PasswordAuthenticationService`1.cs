@@ -332,24 +332,19 @@ namespace CSF.Security.Authentication
     /// <param name="repository">Repository.</param>
     /// <param name="verifierFactory">Verifier factory.</param>
     /// <param name="serializer">Serializer.</param>
-    public PasswordAuthenticationService(IRequestFactory<TRequest> requestFactory,
-                                         IStoredCredentialsRepository repository,
-                                         IPasswordVerifierFactory verifierFactory,
-                                         ICredentialsSerializer serializer)
+    public PasswordAuthenticationService(IStoredCredentialsRepository repository,
+                                         IPasswordVerifierFactory verifierFactory = null,
+                                         IRequestFactory<TRequest> requestFactory = null,
+                                         ICredentialsSerializer serializer = null)
     {
-      if(serializer == null)
-        throw new ArgumentNullException(nameof(serializer));
-      if(verifierFactory == null)
-        throw new ArgumentNullException(nameof(verifierFactory));
       if(repository == null)
         throw new ArgumentNullException(nameof(repository));
-      if(requestFactory == null)
-        throw new ArgumentNullException(nameof(requestFactory));
 
-      this.requestFactory = requestFactory;
       this.repository = repository;
-      this.verifierFactory = verifierFactory;
-      this.credentialsSerializer = serializer;
+
+      this.verifierFactory = verifierFactory?? new PasswordVerifierFactory();
+      this.requestFactory = requestFactory?? new SimpleRequestFactory<TRequest>();
+      this.credentialsSerializer = serializer?? new JsonCredentialsSerializer();
     }
 
     #endregion

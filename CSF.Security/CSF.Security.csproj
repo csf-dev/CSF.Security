@@ -65,6 +65,7 @@
     <Compile Include="Authentication\ICredentialsCreator.cs" />
     <Compile Include="Authentication\PBKDF2Parameters.cs" />
     <Compile Include="Authentication\PBKDF2Credentials.cs" />
+    <Compile Include="Authentication\SimpleRequestFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
