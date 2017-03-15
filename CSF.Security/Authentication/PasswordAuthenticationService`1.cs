@@ -218,7 +218,7 @@ namespace CSF.Security.Authentication
     /// <param name="request">Request.</param>
     public virtual bool VerifyPassword(TRequest request)
     {
-      return request.Verifier.Verify(request.EnteredCredentials, request.StoredCredentials);
+      return request.Verifier.Verify(request.EnteredCredentials, request.CredentialsObject);
     }
 
     /// <summary>

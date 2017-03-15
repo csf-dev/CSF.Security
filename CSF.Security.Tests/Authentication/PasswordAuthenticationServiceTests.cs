@@ -165,7 +165,7 @@ namespace CSF.Security.Tests.Authentication
     {
       // Arrange
       Mock.Get(request.Verifier)
-          .Setup(x => x.Verify(request.EnteredCredentials, request.StoredCredentials))
+          .Setup(x => x.Verify(request.EnteredCredentials, request.CredentialsObject))
           .Returns(true);
 
       // Act
@@ -173,7 +173,7 @@ namespace CSF.Security.Tests.Authentication
 
       // Assert
       Mock.Get(request.Verifier)
-          .Verify(x => x.Verify(request.EnteredCredentials, request.StoredCredentials), Times.Once());
+          .Verify(x => x.Verify(request.EnteredCredentials, request.CredentialsObject), Times.Once());
       Assert.IsTrue(request.PasswordVerified, "Password verified");
     }
 
@@ -183,7 +183,7 @@ namespace CSF.Security.Tests.Authentication
     {
       // Arrange
       Mock.Get(request.Verifier)
-          .Setup(x => x.Verify(request.EnteredCredentials, request.StoredCredentials))
+          .Setup(x => x.Verify(request.EnteredCredentials, request.CredentialsObject))
           .Returns(false);
 
       // Act
@@ -191,7 +191,7 @@ namespace CSF.Security.Tests.Authentication
 
       // Assert
       Mock.Get(request.Verifier)
-          .Verify(x => x.Verify(request.EnteredCredentials, request.StoredCredentials), Times.Once());
+          .Verify(x => x.Verify(request.EnteredCredentials, request.CredentialsObject), Times.Once());
       Assert.IsFalse(request.PasswordVerified, "Password not verified");
     }
 

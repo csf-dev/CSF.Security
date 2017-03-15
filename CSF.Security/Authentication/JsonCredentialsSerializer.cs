@@ -73,7 +73,9 @@ namespace CSF.Security.Authentication
         throw new ArgumentNullException(nameof(credentials));
       }
 
-      var typeName = GetFullTypeName(typeof(TCredentials));
+      var credentialsType = GetCredentialsType(credentials, typeof(TCredentials));
+
+      var typeName = GetFullTypeName(credentialsType);
       var serialized = GetSerializedCredentials(credentials);
 
       return String.Concat(typeName, ":", serialized);
@@ -111,6 +113,17 @@ namespace CSF.Security.Authentication
       {
         return serializer.Deserialize(reader, type);
       }
+    }
+
+    Type GetCredentialsType(object credentials, Type type)
+    {
+      var genericType = type;
+      if(genericType != typeof(object))
+      {
+        return genericType;
+      }
+
+      return credentials.GetType();
     }
 
     JsonSerializer GetSerializer()
