@@ -71,7 +71,7 @@ namespace CSF.Security.Tests.Authentication
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 7
-  testRunner.Given("There is no user account in the database named 'joebloggs'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+  testRunner.Given("there is no user account in the database named 'joebloggs'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
   testRunner.When("I attempt to log in with the username 'joebloggs' and the password 'secret'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
@@ -88,7 +88,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 11
 this.ScenarioSetup(scenarioInfo);
 #line 12
-  testRunner.Given("There is a user account in the database named 'joebloggs' with password 'secret'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+  testRunner.Given("there is a user account in the database named 'joebloggs' with password 'secret'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 13
   testRunner.When("I attempt to log in with the username 'joebloggs' and the password 'wrong'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 14
@@ -105,11 +105,87 @@ this.ScenarioSetup(scenarioInfo);
 #line 16
 this.ScenarioSetup(scenarioInfo);
 #line 17
-  testRunner.Given("There is a user account in the database named 'joebloggs' with password 'secret'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+  testRunner.Given("there is a user account in the database named 'joebloggs' with password 'secret'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 18
   testRunner.When("I attempt to log in with the username 'joebloggs' and the password 'secret'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 19
   testRunner.Then("I should be logged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("An external service listening for success is notified when login succeeds")]
+        public virtual void AnExternalServiceListeningForSuccessIsNotifiedWhenLoginSucceeds()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("An external service listening for success is notified when login succeeds", ((string[])(null)));
+#line 21
+this.ScenarioSetup(scenarioInfo);
+#line 22
+  testRunner.Given("there is a user account in the database named 'joebloggs' with password 'secret'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 23
+    testRunner.And("there is an external service listening for success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 24
+  testRunner.When("I attempt to log in with the username 'joebloggs' and the password 'secret'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 25
+  testRunner.Then("the external service should be notified", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("An external service listening for success is not notified when login fails")]
+        public virtual void AnExternalServiceListeningForSuccessIsNotNotifiedWhenLoginFails()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("An external service listening for success is not notified when login fails", ((string[])(null)));
+#line 27
+this.ScenarioSetup(scenarioInfo);
+#line 28
+  testRunner.Given("there is a user account in the database named 'joebloggs' with password 'secret'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 29
+    testRunner.And("there is an external service listening for success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 30
+  testRunner.When("I attempt to log in with the username 'joebloggs' and the password 'wrong'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 31
+  testRunner.Then("the external service should not be notified", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("An external service listening for failure is not notified when login succeeds")]
+        public virtual void AnExternalServiceListeningForFailureIsNotNotifiedWhenLoginSucceeds()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("An external service listening for failure is not notified when login succeeds", ((string[])(null)));
+#line 33
+this.ScenarioSetup(scenarioInfo);
+#line 34
+  testRunner.Given("there is a user account in the database named 'joebloggs' with password 'secret'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 35
+    testRunner.And("there is an external service listening for failure", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 36
+  testRunner.When("I attempt to log in with the username 'joebloggs' and the password 'secret'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 37
+  testRunner.Then("the external service should not be notified", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("An external service listening for failure is notified when login fails")]
+        public virtual void AnExternalServiceListeningForFailureIsNotifiedWhenLoginFails()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("An external service listening for failure is notified when login fails", ((string[])(null)));
+#line 39
+this.ScenarioSetup(scenarioInfo);
+#line 40
+  testRunner.Given("there is a user account in the database named 'joebloggs' with password 'secret'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 41
+    testRunner.And("there is an external service listening for failure", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 42
+  testRunner.When("I attempt to log in with the username 'joebloggs' and the password 'wrong'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 43
+  testRunner.Then("the external service should be notified", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

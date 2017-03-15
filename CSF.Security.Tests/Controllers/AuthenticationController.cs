@@ -32,8 +32,11 @@ namespace CSF.Security.Tests.Controllers
   public class AuthenticationController
   {
     IAuthenticationResult authenticationResult;
+    bool useSuccessListener, useFailureListener, listenerTriggered;
 
     public IAuthenticationResult AuthenticationResult => authenticationResult;
+
+    public bool ListenerWasTriggered => listenerTriggered;
 
     public void AttemptLogin(string username, string password, IStoredCredentialsRepository repo)
     {
@@ -46,9 +49,34 @@ namespace CSF.Security.Tests.Controllers
       authenticationResult = authenticationService.Authenticate(credentials);
     }
 
+    public void SetupSuccessListener()
+    {
+      useSuccessListener = true;
+    }
+
+    public void SetupFailureListener()
+    {
+      useFailureListener = true;
+    }
+
     IPasswordAuthenticationService GetAuthenticationService(IStoredCredentialsRepository repo)
     {
-      return new PasswordAuthenticationService<AuthenticationRequest>(repo);
+      var output = new PasswordAuthenticationService<AuthenticationRequest>(repo);
+
+      if(useSuccessListener)
+      {
+        output.SuccessfulAuthentication += (sender, e) => {
+          listenerTriggered = true;
+        };
+      }
+      else if(useFailureListener)
+      {
+        output.FailedAuthentication += (sender, e) => {
+          listenerTriggered = true;
+        };
+      }
+
+      return output;
     }
   }
 }

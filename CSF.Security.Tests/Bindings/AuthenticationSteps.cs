@@ -17,16 +17,30 @@ namespace CSF.Security.Tests.Bindings
 
     #region steps
 
-    [Given("There is no user account in the database named '([^']+)'")]
+    [Given("there is no user account in the database named '([^']+)'")]
     public void GivenThereIsNoUserAccount(string username)
     {
       userAccountController.SetupNoUserAccount(username);
     }
 
-    [Given("There is a user account in the database named '([^']+)' with password '([^']+)'")]
+    [Given("there is a user account in the database named '([^']+)' with password '([^']+)'")]
     public void GivenThereIsAUserAccount(string username, string password)
     {
       userAccountController.SetupUserAccount(username, password);
+    }
+
+    [Given("there is an external service listening for ([^ ]+)")]
+    public void GivenAnExternalServiceIsListening(string eventName)
+    {
+      switch(eventName)
+      {
+      case "success":
+        authenticationController.SetupSuccessListener();
+        break;
+      case "failure":
+        authenticationController.SetupFailureListener();
+        break;
+      }
     }
 
     [When("I attempt to log in with the username '([^']+)' and the password '([^']+)'")]
@@ -47,6 +61,18 @@ namespace CSF.Security.Tests.Bindings
     {
       Assert.NotNull(authenticationController.AuthenticationResult, "Authentication result must not be null");
       Assert.IsFalse(authenticationController.AuthenticationResult.Success, "Authentication result must indicate failure");
+    }
+
+    [Then("the external service should be notified")]
+    public void ThenTheServiceShouldBeNotified()
+    {
+      Assert.IsTrue(authenticationController.ListenerWasTriggered);
+    }
+
+    [Then("the external service should not be notified")]
+    public void ThenTheServiceShouldNotBeNotified()
+    {
+      Assert.IsFalse(authenticationController.ListenerWasTriggered);
     }
 
     #endregion
