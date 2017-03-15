@@ -10,6 +10,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A miniature library providing types related to implementing password-based authentication systems.</description>
     <copyright>Copyright 2017</copyright>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="[9.0.1,10.0.0)" />
+    </dependencies>
   </metadata>
   <files>
     <file src="bin/Release/CSF.Security.dll" target="lib/net45" />
