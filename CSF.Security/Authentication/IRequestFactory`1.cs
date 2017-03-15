@@ -1,10 +1,10 @@
 ﻿//
-// IEnteredPassword.cs
+// IRequestFactory.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2017 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,19 +24,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-
-namespace CSF.Security
+namespace CSF.Security.Authentication
 {
   /// <summary>
-  /// Base interface for a form of credentials which includes a password, which may be returned as a byte array.
+  /// Service which creates instance of <see cref="IPasswordAuthenticationRequest"/>. This is a generic implementation of
+  /// <see cref="IRequestFactory"/>.
   /// </summary>
-  public interface ICredentialsWithPassword
+  public interface IRequestFactory<TRequest> : IRequestFactory
+    where TRequest : IPasswordAuthenticationRequest
   {
     /// <summary>
-    /// Gets the password as a byte array.
+    /// Creates the request.
     /// </summary>
-    /// <returns>The password as a byte array.</returns>
-    byte[] GetPasswordAsByteArray();
+    /// <returns>The request.</returns>
+    /// <param name="enteredPassword">Entered password.</param>
+    new TRequest CreateRequest(IPassword enteredPassword);
   }
 }
-

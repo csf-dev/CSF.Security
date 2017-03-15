@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.CSF.Security", "Test.CSF.Security\Test.CSF.Security.csproj", "{11DCF35A-6E2A-4C62-B536-14B83FF5AE07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSF.Security.Tests", "CSF.Security.Tests\CSF.Security.Tests.csproj", "{11DCF35A-6E2A-4C62-B536-14B83FF5AE07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSF.Security", "CSF.Security\CSF.Security.csproj", "{D46ED91C-6D2F-4B18-82B3-6EB2F001C121}"
 EndProject
@@ -39,12 +39,16 @@ Global
 		$0.NameConventionPolicy = $4
 		$4.Rules = $5
 		$5.NamingRule = $6
-		$6.Name = Namespaces
-		$6.AffectedEntity = Namespace
+		$6.Name = Type Parameters
+		$6.AffectedEntity = TypeParameter
 		$6.VisibilityMask = VisibilityMask
 		$6.NamingStyle = PascalCase
 		$6.IncludeInstanceMembers = True
 		$6.IncludeStaticEntities = True
+		$6.RequiredPrefixes = $27
+		$27.String = T
+		$6.RequiredSuffixes = $28
+		$28.String = Exception
 		$5.NamingRule = $7
 		$7.Name = Types
 		$7.AffectedEntity = Class, Struct, Enum, Delegate
@@ -160,6 +164,6 @@ Global
 		$25.NamingStyle = PascalCase
 		$25.IncludeInstanceMembers = True
 		$25.IncludeStaticEntities = True
-		version = 1.0.0
+		version = 2.0.0
 	EndGlobalSection
 EndGlobal

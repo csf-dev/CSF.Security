@@ -1,10 +1,10 @@
 ﻿//
-// IAuthenticationService.cs
+// AutoMoqDataAttribute.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2017 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,31 +24,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.AutoMoq;
+using Ploeh.AutoFixture.NUnit3;
 
-namespace CSF.Security
+namespace CSF.Security.Tests
 {
-  /// <summary>
-  /// Authentication service, gets an authentication result on the basis of some provided credentials.
-  /// </summary>
-  public interface IAuthenticationService
+  [AttributeUsage(AttributeTargets.Method)]
+  public class AutoMoqDataAttribute : AutoDataAttribute
   {
-    /// <summary>
-    /// Attempts authentication using the given credentials.
-    /// </summary>
-    /// <param name="enteredCredentials">Entered credentials.</param>
-    AuthenticationResult Authenticate(object enteredCredentials);
-  }
-
-  /// <summary>
-  /// Generic authentication service, gets an authentication result on the basis of some provided credentials.
-  /// </summary>
-  public interface IAuthenticationService<TEnteredCredentials> : IAuthenticationService
-  {
-    /// <summary>
-    /// Attempts authentication using the given credentials.
-    /// </summary>
-    /// <param name="enteredCredentials">Entered credentials.</param>
-    AuthenticationResult Authenticate(TEnteredCredentials enteredCredentials);
+    public AutoMoqDataAttribute() : base(new Fixture().Customize(new AutoMoqCustomization())) {}
   }
 }
-

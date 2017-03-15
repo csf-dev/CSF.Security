@@ -1,10 +1,10 @@
 ﻿//
-// AssemblyInfo.cs
+// PBKDF2Parameters.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2017 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,20 +23,45 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System;
+namespace CSF.Security.Authentication
+{
+  /// <summary>
+  /// Implementation of <see cref="IPBKDF2Parameters"/> which carries the appropriate information.
+  /// </summary>
+  public class PBKDF2Parameters : IPBKDF2Parameters
+  {
+    /// <summary>
+    /// Gets or sets the iteration count.
+    /// </summary>
+    /// <value>The iteration count.</value>
+    public int IterationCount { get; set; }
 
-[assembly: CLSCompliant(true)]
-[assembly: AssemblyTitle("CSF.Security")]
-[assembly: AssemblyDescription("A miniature library providing types related to implementing password-based authentication systems")]
-[assembly: AssemblyCompany("CSF Software Limited")]
-[assembly: AssemblyCopyright("CSF Software Limited")]
+    /// <summary>
+    /// Gets or sets the length of the key (in bytes).
+    /// </summary>
+    /// <value>The length of the key.</value>
+    public int KeyLength { get; set; }
 
-#if DEBUG
-[assembly: AssemblyConfiguration("Debug")]
-#else
-[assembly: AssemblyConfiguration("Release")]
-#endif
+    /// <summary>
+    /// Gets or sets the length of the salt (in bytes).
+    /// </summary>
+    /// <value>The length of the salt.</value>
+    public int SaltLength { get; set; }
 
-[assembly: AssemblyVersion("2.0.0")]
+    int IPBKDF2Parameters.GetKeyLength()
+    {
+      return KeyLength;
+    }
+
+    int IPBKDF2Parameters.GetSaltLength()
+    {
+      return SaltLength;
+    }
+
+    int IPBKDF2Parameters.GetIterationCount()
+    {
+      return IterationCount;
+    }
+  }
+}

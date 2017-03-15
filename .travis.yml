@@ -1,0 +1,10 @@
+language: csharp
+solution: CSF.Security.sln
+
+install:
+  - nuget restore CSF.Security.sln
+  - nuget install NUnit.ConsoleRunner -Version 3.6.1 -OutputDirectory testrunner
+
+script:
+  - xbuild /p:Configuration=Debug CSF.Security.sln
+  - mono "./testrunner/NUnit.ConsoleRunner.3.6.1/tools/nunit3-console.exe" $(find ./CSF.Security.Tests/ -type f -path "*/bin/Debug/*" -name "CSF.Security.Tests.dll")

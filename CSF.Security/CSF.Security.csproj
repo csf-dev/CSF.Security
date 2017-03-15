@@ -10,7 +10,7 @@
     <RootNamespace>CSF.Security</RootNamespace>
     <AssemblyName>CSF.Security</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <ReleaseVersion>1.0.0</ReleaseVersion>
+    <ReleaseVersion>2.0.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,23 +35,44 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ICredentialsRepository.cs" />
-    <Compile Include="ICredentialVerifier.cs" />
-    <Compile Include="AuthenticationResult.cs" />
-    <Compile Include="IAuthenticationService.cs" />
-    <Compile Include="ICredentialsWithPassword.cs" />
-    <Compile Include="PBKDF2CredentialVerifier.cs" />
-    <Compile Include="IStoredCredentialsWithKeyAndSalt.cs" />
-    <Compile Include="BinaryKeyAndSalt.cs" />
-    <Compile Include="Base64KeyAndSalt.cs" />
-    <Compile Include="IBinaryKeyCreator.cs" />
-    <Compile Include="AuthenticationService`2.cs" />
+    <Compile Include="Authentication\IPasswordAuthenticationService.cs" />
+    <Compile Include="Authentication\IPasswordAuthenticationRequest.cs" />
+    <Compile Include="Authentication\IStoredCredentials.cs" />
+    <Compile Include="Authentication\IPassword.cs" />
+    <Compile Include="Authentication\IAuthenticationResult.cs" />
+    <Compile Include="Authentication\AuthenticationResult.cs" />
+    <Compile Include="Authentication\PasswordAuthenticationRequest`3.cs" />
+    <Compile Include="Authentication\CredentialsWithPassword.cs" />
+    <Compile Include="Authentication\PasswordAuthenticationService`1.cs" />
+    <Compile Include="Authentication\IStoredCredentialsRepository.cs" />
+    <Compile Include="Authentication\IPasswordVerifier.cs" />
+    <Compile Include="Authentication\IPasswordVerifierFactory.cs" />
+    <Compile Include="Authentication\IRequestFactory`1.cs" />
+    <Compile Include="Authentication\IRequestFactory.cs" />
+    <Compile Include="Authentication\AuthenticationStepEventArgs.cs" />
+    <Compile Include="Authentication\ICredentialsSerializer.cs" />
+    <Compile Include="Authentication\JsonCredentialsSerializer.cs" />
+    <Compile Include="Authentication\PasswordVerifierFactory.cs" />
+    <Compile Include="Authentication\PBKDF2PasswordVerifier.cs" />
+    <Compile Include="Authentication\IPBKDF2Credentials.cs" />
+    <Compile Include="Authentication\IPBKDF2Parameters.cs" />
+    <Compile Include="Authentication\ICredentialsCreator.cs" />
+    <Compile Include="Authentication\PBKDF2Parameters.cs" />
+    <Compile Include="Authentication\PBKDF2Credentials.cs" />
+    <Compile Include="Authentication\SimpleRequestFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="CSF.Security.nuspec" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Authentication\" />
   </ItemGroup>
 </Project>

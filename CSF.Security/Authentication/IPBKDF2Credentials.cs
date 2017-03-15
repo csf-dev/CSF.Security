@@ -1,10 +1,10 @@
 ﻿//
-// AssemblyInfo.cs
+// IPBKDF2Credentials.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2017 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,20 +23,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System;
+namespace CSF.Security.Authentication
+{
+  /// <summary>
+  /// Represents a credentials object which may be used with a <see cref="PBKDF2PasswordVerifier"/>.
+  /// </summary>
+  public interface IPBKDF2Credentials : IPBKDF2Parameters
+  {
+    /// <summary>
+    /// Gets the key as a byte array.
+    /// </summary>
+    /// <returns>The key as a byte array.</returns>
+    byte[] GetKeyAsByteArray();
 
-[assembly: CLSCompliant(true)]
-[assembly: AssemblyTitle("CSF.Security")]
-[assembly: AssemblyDescription("A miniature library providing types related to implementing password-based authentication systems")]
-[assembly: AssemblyCompany("CSF Software Limited")]
-[assembly: AssemblyCopyright("CSF Software Limited")]
-
-#if DEBUG
-[assembly: AssemblyConfiguration("Debug")]
-#else
-[assembly: AssemblyConfiguration("Release")]
-#endif
-
-[assembly: AssemblyVersion("2.0.0")]
+    /// <summary>
+    /// Gets the salt as a byte array.
+    /// </summary>
+    /// <returns>The salt as a byte array.</returns>
+    byte[] GetSaltAsByteArray();
+  }
+}

@@ -2,14 +2,17 @@
 <package>
   <metadata>
     <id>CSF.Security</id>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <title>CSF.Security</title>
     <authors>CSF Software Ltd</authors>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
     <projectUrl>https://github.com/csf-dev/CSF.Security</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Types relating to application-level authentication.</description>
-    <copyright>Copyright 2016</copyright>
+    <description>A miniature library providing types related to implementing password-based authentication systems.</description>
+    <copyright>Copyright 2017</copyright>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="[9.0.1,10.0.0)" />
+    </dependencies>
   </metadata>
   <files>
     <file src="bin/Release/CSF.Security.dll" target="lib/net45" />

@@ -1,10 +1,10 @@
 ﻿//
-// ICredentialsRepository.cs
+// IPasswordVerifier.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2017 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,35 +24,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-
-namespace CSF.Security
+namespace CSF.Security.Authentication
 {
   /// <summary>
-  /// Credentials repository interface - a service to get the stored credentials information (such as from a database)
-  /// based upon some entered credentials (such as a username entered into an interactive login).
+  /// Serivce which verifies a password against the stored credentials.
   /// </summary>
-  public interface ICredentialsRepository
+  public interface IPasswordVerifier
   {
     /// <summary>
-    /// Gets the stored credentials based upon the entered credentials.
+    /// Verify the specified entered credentials against the specified credentials object.
     /// </summary>
-    /// <returns>The stored credentials.</returns>
     /// <param name="enteredCredentials">Entered credentials.</param>
-    object GetStoredCredentials(object enteredCredentials);
-  }
-
-  /// <summary>
-  /// Credentials repository interface - a service to get the stored credentials information (such as from a database)
-  /// based upon some entered credentials (such as a username entered into an interactive login).
-  /// </summary>
-  public interface ICredentialsRepository<TEnteredCredentials,TStoredCredentials> : ICredentialsRepository
-  {
-    /// <summary>
-    /// Gets the stored credentials based upon the entered credentials.
-    /// </summary>
-    /// <returns>The stored credentials.</returns>
-    /// <param name="enteredCredentials">Entered credentials.</param>
-    TStoredCredentials GetStoredCredentials(TEnteredCredentials enteredCredentials);
+    /// <param name="credentialsObject">Credentials object.</param>
+    bool Verify(IPassword enteredCredentials, object credentialsObject);
   }
 }
-

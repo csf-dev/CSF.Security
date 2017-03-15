@@ -1,10 +1,10 @@
 ﻿//
-// AuthenticationResult.cs
+// AuthenticationStepEventArgs.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2017 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,37 +24,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-
-namespace CSF.Security
+namespace CSF.Security.Authentication
 {
   /// <summary>
-  /// Immutable type represents the result of an authentication attempt.
+  /// Event arguments type for a step within the authentication process..
   /// </summary>
-  public class AuthenticationResult
+  [System.Serializable]
+  public sealed class AuthenticationStepEventArgs<TRequest> : EventArgs
+    where TRequest : IPasswordAuthenticationRequest
   {
     /// <summary>
-    /// Gets a value indicating whether the credentials were found (usually meaning that a matching user was found in
-    /// the db).
+    /// Gets the authentication request.
     /// </summary>
-    /// <value><c>true</c> if the credentials were found; otherwise, <c>false</c>.</value>
-    public bool CredentialsFound { get; private set; }
+    /// <value>The authentication request.</value>
+    public TRequest AuthenticationRequest { get; }
 
     /// <summary>
-    /// Gets a value indicating whether the credentials were verified.
+    /// Initializes a new instance of the
+    /// <see cref="T:CSF.Security.Authentication.AuthenticationStepEventArgs{TRequest}"/> class.
     /// </summary>
-    /// <value><c>true</c> if the credentials were verified; otherwise, <c>false</c>.</value>
-    public bool CredentialsVerified { get; private set; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CSF.Security.AuthenticationResult"/> class.
-    /// </summary>
-    /// <param name="found">Whether or not the credentials were found.</param>
-    /// <param name="verified">Whether or not the credentials were verified.</param>
-    public AuthenticationResult(bool found, bool verified)
+    /// <param name="authenticationRequest">Authentication request.</param>
+    public AuthenticationStepEventArgs(TRequest authenticationRequest)
     {
-      CredentialsFound = found;
-      CredentialsVerified = verified;
+      if(ReferenceEquals(authenticationRequest, null))
+      {
+        throw new ArgumentNullException(nameof(authenticationRequest));
+      }
+
+      AuthenticationRequest = authenticationRequest;
     }
   }
 }
-

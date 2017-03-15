@@ -1,10 +1,10 @@
 ﻿//
-// IBinaryKeyCreator.cs
+// SimpleRequestFactory.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2017 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,29 +24,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-
-namespace CSF.Security
+namespace CSF.Security.Authentication
 {
   /// <summary>
-  /// Service which creates binary (byte array) random salts and hashed keys (given a salt).
+  /// Simple implememtation of <see cref="T:IRequestFactory{TRequest}"/> which will instantiate types with
+  /// parameterless constructors.
   /// </summary>
-  public interface IBinaryKeyCreator
+  public class SimpleRequestFactory<TRequest> : IRequestFactory<TRequest>
+    where TRequest : IPasswordAuthenticationRequest
   {
     /// <summary>
-    /// Creates a random salt, as a byte array.
+    /// Creates the request.
     /// </summary>
-    /// <returns>The random salt.</returns>
-    /// <param name="length">Desired salt length in bytes.</param>
-    byte[] CreateRandomSalt(int length);
+    /// <returns>The request.</returns>
+    /// <param name="enteredPassword">Entered password.</param>
+    public TRequest CreateRequest(IPassword enteredPassword)
+    {
+      var request = Activator.CreateInstance<TRequest>();
+      request.EnteredCredentials = enteredPassword;
+      return request;
+    }
 
-    /// <summary>
-    /// Creates a key for a given password and salt, of a desired key length.
-    /// </summary>
-    /// <returns>The generated key.</returns>
-    /// <param name="password">The password.</param>
-    /// <param name="salt">The salt.</param>
-    /// <param name="length">The key length.</param>
-    byte[] CreateKey(byte[] password, byte[] salt, int length);
+    IPasswordAuthenticationRequest IRequestFactory.CreateRequest(IPassword enteredPassword)
+    {
+      return CreateRequest(enteredPassword);
+    }
   }
 }
-
