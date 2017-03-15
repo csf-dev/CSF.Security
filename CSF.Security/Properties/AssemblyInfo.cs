@@ -29,7 +29,7 @@ using System;
 
 [assembly: CLSCompliant(true)]
 [assembly: AssemblyTitle("CSF.Security")]
-[assembly: AssemblyDescription("Types related to authentication, authorisation and application security")]
+[assembly: AssemblyDescription("A miniature library providing types related to implementing password-based authentication systems")]
 [assembly: AssemblyCompany("CSF Software Limited")]
 [assembly: AssemblyCopyright("CSF Software Limited")]
 
@@ -39,4 +39,4 @@ using System;
 [assembly: AssemblyConfiguration("Release")]
 #endif
 
-[assembly: AssemblyVersion("1.0.0")]
+[assembly: AssemblyVersion("2.0.0")]
