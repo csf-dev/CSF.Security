@@ -9,3 +9,7 @@ before_build:
 build:
   project: CSF.Security.sln
   verbosity: normal
+test:
+  assemblies:
+    except:
+    - '**\Ploeh.AutoFixture.NUnit3.dll'
