@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>CSF.Security.Tests</RootNamespace>
     <AssemblyName>CSF.Security.Tests</AssemblyName>
-    <ReleaseVersion>2.0.0</ReleaseVersion>
+    <ReleaseVersion>2.0.1</ReleaseVersion>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -48,6 +48,7 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
+      <Package>nunit</Package>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.1.1308.2120\lib\net40\Moq.dll</HintPath>
@@ -57,6 +58,7 @@
     </Reference>
     <Reference Include="nunit.core.interfaces">
       <HintPath>..\packages\NUnit.Console.3.0.0\tools\addins\nunit.core.interfaces.dll</HintPath>
+      <Package>nunit</Package>
     </Reference>
   </ItemGroup>
   <ItemGroup>
