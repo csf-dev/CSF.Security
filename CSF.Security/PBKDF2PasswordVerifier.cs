@@ -36,7 +36,7 @@ namespace CSF.Security.Authentication
   {
     #region constants
 
-    static readonly RNGCryptoServiceProvider _randomNumberGenerator;
+    static readonly RandomNumberGenerator _randomNumberGenerator;
     internal const int DefaultIterationCount = 256000, DefaultKeyLength = 16, DefaultSaltLength = 16;
 
     #endregion
@@ -64,7 +64,7 @@ namespace CSF.Security.Authentication
     /// Gets the secure random number generator.
     /// </summary>
     /// <value>The random number generator.</value>
-    protected RNGCryptoServiceProvider RandomNumberGenerator
+    protected RandomNumberGenerator RandomNumberGenerator
     {
       get {
         return _randomNumberGenerator;
@@ -260,7 +260,7 @@ namespace CSF.Security.Authentication
     /// </summary>
     static PBKDF2PasswordVerifier()
     {
-      _randomNumberGenerator = new RNGCryptoServiceProvider();
+      _randomNumberGenerator = RandomNumberGenerator.Create();
     }
 
     #endregion

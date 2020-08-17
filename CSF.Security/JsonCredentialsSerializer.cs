@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 using System;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -83,7 +84,7 @@ namespace CSF.Security.Authentication
 
     string GetFullTypeName(Type type)
     {
-      return String.Concat(type.FullName, ", ", type.Assembly.GetName().Name);
+      return String.Concat(type.FullName, ", ", type.GetTypeInfo().Assembly.GetName().Name);
     }
 
     Type GetType(string name)

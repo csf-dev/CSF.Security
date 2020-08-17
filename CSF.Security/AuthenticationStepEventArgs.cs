@@ -29,7 +29,9 @@ namespace CSF.Security.Authentication
   /// <summary>
   /// Event arguments type for a step within the authentication process..
   /// </summary>
+#if !NETSTANDARD1_3
   [System.Serializable]
+#endif
   public sealed class AuthenticationStepEventArgs<TRequest> : EventArgs
     where TRequest : IPasswordAuthenticationRequest
   {
