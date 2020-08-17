@@ -28,7 +28,7 @@ using CSF.Security.Authentication;
 using CSF.Security.Tests.Stubs;
 using Moq;
 using NUnit.Framework;
-using Ploeh.AutoFixture.NUnit3;
+using AutoFixture.NUnit3;
 
 namespace CSF.Security.Tests.Authentication
 {
