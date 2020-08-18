@@ -31,51 +31,81 @@ using NUnit.Framework;
 
 namespace CSF.Security.Tests.Authentication
 {
-  [TestFixture]
-  public class JsonCredentialsSerializerTests
-  {
-    #region tests
-
-    [Test,AutoMoqData]
-    public void Serialize_creates_expected_json(StubCredentials credentials,
-                                                JsonCredentialsSerializer sut)
+    [TestFixture]
+    public class JsonCredentialsSerializerTests
     {
-      // Arrange
-      credentials.InitialisationNumber = 5;
-      credentials.Key = "My key";
-      credentials.Salt = "Salty goodness";
+        /// <summary>
+        /// Some credentials created using the old mechanism of indicating the Assebmly-Qualified type name.
+        /// </summary>
+        const string ValidOldStyleCredentials = "CSF.Security.Tests.Stubs.StubCredentials, CSF.Security.Tests:{\"Key\":\"My key\",\"Salt\":\"Salty goodness\",\"InitialisationNumber\":5}";
 
-      var expectedJson = "CSF.Security.Tests.Stubs.StubCredentials, CSF.Security.Tests:{\"Key\":\"My key\",\"Salt\":\"Salty goodness\",\"InitialisationNumber\":5}";
+        /// <summary>
+        /// Some credentials created using the new mechanism of indicating the Assebmly-Qualified type name.
+        /// </summary>
+        const string ValidNewStyleCredentials = "{\"$type\":\"CSF.Security.Tests.Stubs.StubCredentials, CSF.Security.Tests\",\"Key\":\"My key\",\"Salt\":\"Salty goodness\",\"InitialisationNumber\":5}";
 
-      // Act
-      var result = sut.Serialize(credentials);
+        #region tests
 
-      // Assert
-      Assert.AreEqual(expectedJson, result);
+        [Test, AutoMoqData]
+        public void Serialize_creates_expected_json(StubCredentials credentials,
+                                                    JsonCredentialsSerializer sut)
+        {
+            // Arrange
+            credentials.InitialisationNumber = 5;
+            credentials.Key = "My key";
+            credentials.Salt = "Salty goodness";
+
+            var expectedJson = "{\"$type\":\"CSF.Security.Tests.Stubs.StubCredentials, CSF.Security.Tests\",\"Key\":\"My key\",\"Salt\":\"Salty goodness\",\"InitialisationNumber\":5}";
+
+            // Act
+            var result = sut.Serialize(credentials);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(expectedJson));
+        }
+
+        [Test, AutoMoqData, Description(@"Prior to v2.1.0, the saved credential format included a prefix which indicated a type.
+From 2.1.0, Newtonsoft JSON's built-in type handling functionality is used instead.
+For backwards-compatibility this class must be able to read the old-format until we are ready to move to 3.0.0.")]
+        public void Deserialize_can_read_credentials_which_use_a_type_prefix(JsonCredentialsSerializer sut)
+        {
+            var result = sut.Deserialize(ValidOldStyleCredentials);
+
+            Assert.That(result, Is.InstanceOf<StubCredentials>(), "Expected type");
+            var typedResult = (StubCredentials)result;
+            Assert.That(typedResult.InitialisationNumber, Is.EqualTo(5), nameof(StubCredentials.InitialisationNumber));
+            Assert.That(typedResult.Key, Is.EqualTo("My key"), nameof(StubCredentials.Key));
+            Assert.That(typedResult.Salt, Is.EqualTo("Salty goodness"), nameof(StubCredentials.Salt));
+        }
+
+        [Test, AutoMoqData]
+        public void Deserialize_can_read_credentials_which_use_a_JSON_type_property(JsonCredentialsSerializer sut)
+        {
+            var result = sut.Deserialize(ValidNewStyleCredentials);
+
+            Assert.That(result, Is.InstanceOf<StubCredentials>(), "Expected type");
+            var typedResult = (StubCredentials)result;
+            Assert.That(typedResult.InitialisationNumber, Is.EqualTo(5), nameof(StubCredentials.InitialisationNumber));
+            Assert.That(typedResult.Key, Is.EqualTo("My key"), nameof(StubCredentials.Key));
+            Assert.That(typedResult.Salt, Is.EqualTo("Salty goodness"), nameof(StubCredentials.Salt));
+        }
+
+        [Test, AutoMoqData]
+        public void Serialize_writes_credentials_using_a_JSON_type_property(JsonCredentialsSerializer sut)
+        {
+            var credentials = new StubCredentials
+            {
+                InitialisationNumber = 5,
+                Key = "My key",
+                Salt = "Salty goodness",
+            };
+            var result = sut.Serialize(credentials);
+
+            Assert.That(result, Does.Match(@"\$type"), "Includes a $type element");
+            Assert.That(result, Does.Match(@"^\{"), "Begins with an open-brace");
+        }
+
+
+        #endregion
     }
-
-    [Test,AutoMoqData]
-    public void Deserialize_creates_expected_object(JsonCredentialsSerializer sut)
-    {
-      // Arrange
-      var json = "CSF.Security.Tests.Stubs.StubCredentials, CSF.Security.Tests:{\"Key\":\"My key\",\"Salt\":\"Salty goodness\",\"InitialisationNumber\":5}";
-      var expectedCredentials = new StubCredentials {
-        InitialisationNumber = 5,
-        Key = "My key",
-        Salt = "Salty goodness",
-      };
-
-      // Act
-      var result = sut.Deserialize(json);
-
-      // Assert
-      Assert.IsInstanceOf<StubCredentials>(result, "Type");
-      var typedResult = (StubCredentials) result;
-      Assert.AreEqual(expectedCredentials.InitialisationNumber, typedResult.InitialisationNumber, "InitialisationNumber");
-      Assert.AreEqual(expectedCredentials.Key, typedResult.Key, "Key");
-      Assert.AreEqual(expectedCredentials.Salt, typedResult.Salt, "Salt");
-    }
-
-    #endregion
-  }
 }
