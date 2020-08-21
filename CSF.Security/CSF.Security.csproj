@@ -5,7 +5,7 @@
     <PackageId>CSF.Security</PackageId>
     <Authors>craigfowler</Authors>
     <Description>A miniature library providing types related to implementing password-based authentication systems.</Description>
-    <ReleaseVersion>2.0.2</ReleaseVersion>
+    <ReleaseVersion>2.1.0</ReleaseVersion>
     <Version>$(ReleaseVersion)</Version>
     <PackageVersion>$(ReleaseVersion)</PackageVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
