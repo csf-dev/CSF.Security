@@ -23,8 +23,6 @@ Global
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
 		$0.TextStylePolicy = $1
-		$1.TabWidth = 2
-		$1.IndentWidth = 2
 		$1.NoTabsAfterNonTabs = True
 		$1.scope = text/plain
 		$1.TabsToSpaces = True
@@ -161,6 +159,11 @@ Global
 		$25.NamingStyle = PascalCase
 		$25.IncludeInstanceMembers = True
 		$25.IncludeStaticEntities = True
-		version = 2.0.2
+		$0.TextStylePolicy = $29
+		$29.inheritsSet = null
+		$29.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $30
+		$30.scope = text/x-csharp
+		version = 2.1.0
 	EndGlobalSection
 EndGlobal

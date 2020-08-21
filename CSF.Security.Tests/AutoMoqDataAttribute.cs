@@ -24,15 +24,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
-using Ploeh.AutoFixture.NUnit3;
+using AutoFixture;
+using AutoFixture.AutoMoq;
+using AutoFixture.NUnit3;
 
 namespace CSF.Security.Tests
 {
   [AttributeUsage(AttributeTargets.Method)]
   public class AutoMoqDataAttribute : AutoDataAttribute
   {
-    public AutoMoqDataAttribute() : base(new Fixture().Customize(new AutoMoqCustomization())) {}
+    public AutoMoqDataAttribute() : base(() => new Fixture().Customize(new AutoMoqCustomization())) {}
   }
 }
