@@ -32,7 +32,7 @@
          a few times.  I don't want to prevent usage of a future version which is *likely* to be compatible,
          just for the sake of being certain.  If a version of Newtonsoft.Json is released which breaks this
          package, then please raise a bug to have the max version capped accordingly. -->
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" Condition="'$(TargetFramework)' == 'net45'" />
     <PackageReference Include="System.Security.Cryptography.Csp" Version="4.3.0" Condition="'$(TargetFramework)' == 'netstandard1.3'" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
